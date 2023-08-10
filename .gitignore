@@ -3,3 +3,7 @@ ai.out
 __pycache__
 evaluation/evaluate.out
 evaluation/__pycache__
+
+.idea
+build
+cmake-build-debug
