@@ -198,7 +198,14 @@ elif sys.argv[1] == 'cui':
         y, x = [int(elem) for elem in ai_exe.stdout.readline().decode().split()]
         print(y, x)
         o.move(y, x)
-    
+
+        grid_str = ''
+        for i in range(hw):
+            for j in range(hw):
+                grid_str += '0' if o.grid[i][j] == 0 else '1' if o.grid[i][j] == 1 else '.'
+        grid_str += '\n'
+        print(grid_str)
+
     while True:
         
         # 合法手生成とパス判定
@@ -214,6 +221,12 @@ elif sys.argv[1] == 'cui':
             ai()
         else:
             o.move_stdin()
+            tmp_grid_str = ''
+            for i in range(hw):
+                for j in range(hw):
+                    tmp_grid_str += '0' if o.grid[i][j] == 0 else '1' if o.grid[i][j] == 1 else '.'
+            tmp_grid_str += '\n'
+            print(tmp_grid_str)
 else:
     message = '''
 使い方

@@ -110,15 +110,15 @@ void board_init() {
                 legal_arr[white][idx][place] = false;
         }
         for (place = 0; place < hw; ++place) {
-            flip_arr[black][idx][place] = idx;
+            flip_arr[black][idx][place] = idx; // index before flipping or putting
             flip_arr[white][idx][place] = idx;
             put_arr[black][idx][place] = idx;
             put_arr[white][idx][place] = idx;
-            if (b & (1 << (hw - 1 - place)))
+            if (b & (1 << (hw - 1 - place))) // increases from black(0) to white(1)
                 flip_arr[white][idx][place] += pow3[hw - 1 - place];
-            else if (w & (1 << (hw - 1 - place)))
+            else if (w & (1 << (hw - 1 - place))) // decreases from white(1) to black(0)
                 flip_arr[black][idx][place] -= pow3[hw - 1 - place];
-            else{
+            else{ // vacant(2) -> decreases to black(0) or white(1)
                 put_arr[black][idx][place] -= pow3[hw - 1 - place] * 2;
                 put_arr[white][idx][place] -= pow3[hw - 1 - place];
             }
@@ -127,6 +127,7 @@ void board_init() {
     for (place = 0; place < hw2; ++place){
         inc_idx = 0;
         for (idx = 0; idx < n_board_idx; ++idx){
+            // retrieve each cell in an index
             for (l_place = 0; l_place < hw; ++l_place){
                 if (global_place[idx][l_place] == place)
                     place_included[place][inc_idx++] = idx;
@@ -283,6 +284,7 @@ class board {
     private:
         // 石をひっくり返す
         inline void flip(board *res, int g_place) {
+            // place_included[g_place][i] で4方向(インデックス)を見ている
             res->board_idx[place_included[g_place][0]] = flip_arr[this->player][res->board_idx[place_included[g_place][0]]][local_place[place_included[g_place][0]][g_place]];
             res->board_idx[place_included[g_place][1]] = flip_arr[this->player][res->board_idx[place_included[g_place][1]]][local_place[place_included[g_place][1]][g_place]];
             res->board_idx[place_included[g_place][2]] = flip_arr[this->player][res->board_idx[place_included[g_place][2]]][local_place[place_included[g_place][2]][g_place]];

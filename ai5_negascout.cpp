@@ -210,7 +210,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
         alpha = max(alpha, g);
         max_score = max(max_score, g);
     }
-    if (max_score < alpha) {
+    if (max_score < alpha) { // fail-low ?
         // 置換表の下限値に登録 fail low
         transpose_table_upper[b] = max_score;
     } else {

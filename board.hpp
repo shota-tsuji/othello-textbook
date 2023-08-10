@@ -11,7 +11,7 @@ using namespace std;
 #define white 1         // 白の番号
 #define vacant 2        // 空の番号
 
-// インデックスごとのマスの移動数
+// インデックスごとのマスの移動数. row, column, left upper, left lower
 const int move_offset[n_board_idx] = {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
 // インデックス化するときのマス
 const int global_place[n_board_idx][hw] = {
@@ -59,13 +59,13 @@ inline int move_line_half(const int p, const int o, const int place, const int k
     if (pt & p || pt & o)
         return res;
     mask = trans(pt, k);
-    while (mask && (mask & o)) {
+    while (mask && (mask & o)) { // not vacant and opponent stones are continued
         ++res;
         mask = trans(mask, k);
         if (mask & p)
             return res;
     }
-    return 0;
+    return 0; // If just opponent stones exist with vacant and self stones does not exist between them
 }
 
 void board_init() {
@@ -262,16 +262,18 @@ class board {
         inline void translate_from_arr(const int arr[], int player) {
             int i, j;
             for (i = 0; i < n_board_idx; ++i)
-                this->board_idx[i] = n_line - 1;
-            this->n_stones = hw2;
-            for (i = 0; i < hw2; ++i) {
-                for (j = 0; j < 4; ++j) {
-                    if (place_included[i][j] == -1)
+                this->board_idx[i] = n_line - 1; // init all values with vacant eight cells (6560)
+            this->n_stones = hw2; // init with all discs (64)
+            for (i = 0; i < hw2; ++i) { // loop each cell
+                for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
+                    const int index = place_included[i][j];
+                    const int cell = local_place[index][i];
+                    if (index == -1)
                         continue;
                     if (arr[i] == black)
-                        this->board_idx[place_included[i][j]] -= 2 * pow3[hw - 1 - local_place[place_included[i][j]][i]];
+                        this->board_idx[index] -= 2 * pow3[hw - 1 - cell];
                     else if (arr[i] == white)
-                        this->board_idx[place_included[i][j]] -= pow3[hw - 1 - local_place[place_included[i][j]][i]];
+                        this->board_idx[index] -= pow3[hw - 1 - cell];
                     else if (j == 0)
                         --this->n_stones;
                 }
@@ -293,9 +295,15 @@ class board {
             int j, place;
             place = local_place[place_included[g_place][i]][g_place];
             for (j = 1; j <= move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][0]; ++j)
+                // printf("left: move_p");
                 flip(res, g_place - move_offset[place_included[g_place][i]] * j);
             for (j = 1; j <= move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
                 flip(res, g_place + move_offset[place_included[g_place][i]] * j);
+        }
+
+        void prints(board *res) {
+            for (int i = 0; i < 38; ++i) {
+            }
         }
 
 };
