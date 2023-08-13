@@ -85,4 +85,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
         }
     }
     EXPECT_TRUE(same);
+    EXPECT_EQ(next.player, 1);
+    EXPECT_EQ(next.n_stones, previous_board.n_stones + 1);
+    EXPECT_EQ(next.policy, 44);
 }
