@@ -22,30 +22,28 @@ TEST(BoradTest, Initialization) {
 
 // 0000000000000000000000000000000000000000000000000000000000000000
 TEST(BoradTest, LegalJudgeAllBlack) {
-    board b;
-    int arr[64] = {0};
+    std::vector<int> board_array(hw2, 0);
 
     board_init();
-    b.translate_from_arr(arr, 0);
+    board b;
+    b.translate_from_arr(board_array, 0);
 
     EXPECT_TRUE(!b.legal(0));
 }
 
 // ...................0.......00.....111...........................
 TEST(BoradTest, LegalJudge) {
-    board b;
-    int arr[64];
-    for (int &i: arr) {
-        i = 2;
-    }
-    arr[19] = 0;
-    arr[27] = 0;
-    arr[28] = 0;
-    arr[34] = 1;
-    arr[35] = 1;
-    arr[36] = 1;
+    std::vector<int> board_array(hw2, 2);
+    board_array[19] = 0;
+    board_array[27] = 0;
+    board_array[28] = 0;
+    board_array[34] = 1;
+    board_array[35] = 1;
+    board_array[36] = 1;
+
     board_init();
-    b.translate_from_arr(arr, 0);
+    board b;
+    b.translate_from_arr(board_array, 0);
     b.print();
 
     EXPECT_TRUE(!b.legal(0));

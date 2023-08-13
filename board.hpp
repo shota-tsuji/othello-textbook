@@ -320,6 +320,28 @@ public:
         this->player = player;
     }
 
+    inline void translate_from_arr(std::vector<int> arr, int player) {
+        int i, j;
+        for (i = 0; i < n_board_idx; ++i)
+            this->board_idx[i] = n_line - 1; // init all values with vacant eight cells (6560)
+        this->n_stones = hw2; // init with all discs (64)
+        for (i = 0; i < hw2; ++i) { // loop each cell
+            for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
+                const int index = place_included[i][j];
+                const int cell = local_place[index][i];
+                if (index == -1)
+                    continue;
+                if (arr[i] == black)
+                    this->board_idx[index] -= 2 * pow3[hw - 1 - cell];
+                else if (arr[i] == white)
+                    this->board_idx[index] -= pow3[hw - 1 - cell];
+                else if (j == 0)
+                    --this->n_stones;
+            }
+        }
+        this->player = player;
+    }
+
 private:
     // 石をひっくり返す
     inline void flip(board *res, int g_place) {
