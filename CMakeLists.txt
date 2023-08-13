@@ -1,4 +1,5 @@
-
+cmake_minimum_required(VERSION 3.25)
+project(Othello_textbook CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -36,13 +37,13 @@ add_executable(OthelloAI_Textbook
 enable_testing()
 
 add_executable(
-        hello_test
-        hello_test.cc
+        board_test
+        board_test.cc
 )
 target_link_libraries(
-        hello_test
+        board_test
         GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(board_test)
