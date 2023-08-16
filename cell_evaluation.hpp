@@ -40,7 +40,7 @@ inline int evaluate(board b) {
     for (i = 0; i < hw / 2; ++i)
         // 折り返して配列確認している?
         res += cell_score[hw / 2 - 1 - i][b.board_idx[hw / 2 + i]];
-    if (b.player == white)
+    if (b.player == White)
         res = -res;
     return res;
 }

@@ -9,8 +9,8 @@ using namespace std;
 #define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
 #define n_line 6561     // ボードの1つのインデックスが取りうる値の種類。3^8
 const int Black = 0;         // 黒の番号
-#define white 1         // 白の番号
-#define vacant 2        // 空の番号
+const int White = 1;         // 白の番号
+const int Vacant = 2;        // 空の番号
 
 // インデックスごとのマスの移動数. row, column, left upper, left lower
 const int move_offset[n_board_idx] = {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
@@ -138,25 +138,25 @@ void board_init() {
                 legal_arr[Black][idx][place] = true;
             else
                 legal_arr[Black][idx][place] = false;
-            move_arr[white][idx][place][0] = move_line_half(w, b, place, 0);
-            move_arr[white][idx][place][1] = move_line_half(w, b, place, 1);
-            if (move_arr[white][idx][place][0] || move_arr[white][idx][place][1])
-                legal_arr[white][idx][place] = true;
+            move_arr[White][idx][place][0] = move_line_half(w, b, place, 0);
+            move_arr[White][idx][place][1] = move_line_half(w, b, place, 1);
+            if (move_arr[White][idx][place][0] || move_arr[White][idx][place][1])
+                legal_arr[White][idx][place] = true;
             else
-                legal_arr[white][idx][place] = false;
+                legal_arr[White][idx][place] = false;
         }
         for (place = 0; place < hw; ++place) {
             flip_arr[Black][idx][place] = idx;
-            flip_arr[white][idx][place] = idx;
+            flip_arr[White][idx][place] = idx;
             put_arr[Black][idx][place] = idx;
-            put_arr[white][idx][place] = idx;
+            put_arr[White][idx][place] = idx;
             if (b & (1 << (hw - 1 - place)))
-                flip_arr[white][idx][place] += pow3[hw - 1 - place];
+                flip_arr[White][idx][place] += pow3[hw - 1 - place];
             else if (w & (1 << (hw - 1 - place)))
                 flip_arr[Black][idx][place] -= pow3[hw - 1 - place];
             else {
                 put_arr[Black][idx][place] -= pow3[hw - 1 - place] * 2;
-                put_arr[white][idx][place] -= pow3[hw - 1 - place];
+                put_arr[White][idx][place] -= pow3[hw - 1 - place];
             }
         }
     }
@@ -311,7 +311,7 @@ public:
                     continue;
                 if (arr[i] == Black)
                     this->board_idx[index] -= 2 * pow3[hw - 1 - cell];
-                else if (arr[i] == white)
+                else if (arr[i] == White)
                     this->board_idx[index] -= pow3[hw - 1 - cell];
                 else if (j == 0)
                     --this->n_stones;
@@ -333,7 +333,7 @@ public:
                     continue;
                 if (arr[i] == Black)
                     this->board_idx[index] -= 2 * pow3[hw - 1 - cell];
-                else if (arr[i] == white)
+                else if (arr[i] == White)
                     this->board_idx[index] -= pow3[hw - 1 - cell];
                 else if (j == 0)
                     --this->n_stones;

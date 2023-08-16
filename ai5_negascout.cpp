@@ -31,9 +31,9 @@ inline void input_board(int arr[]) {
         if (elem == '0')
             arr[i] = Black;
         else if (elem == '1')
-            arr[i] = white;
+            arr[i] = White;
         else
-            arr[i] = vacant;
+            arr[i] = Vacant;
     }
 }
 

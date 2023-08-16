@@ -74,7 +74,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
     // d3c5e6
     board expected;
-    expected.translate_from_arr(make_vector_d3c5e6(), white);
+    expected.translate_from_arr(make_vector_d3c5e6(), White);
 
     // d3c5
     board previous_board;
