@@ -74,7 +74,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
     // d3c5e6
     board expected;
-    expected.translate_from_arr(make_vector_d3c5e6(), black);
+    expected.translate_from_arr(make_vector_d3c5e6(), white);
 
     // d3c5
     board previous_board;
@@ -89,7 +89,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
         }
     }
     EXPECT_TRUE(same);
-    EXPECT_EQ(next.player, white);
-    EXPECT_EQ(next.n_stones, previous_board.n_stones + 1);
+    EXPECT_EQ(next.player, expected.player);
+    EXPECT_EQ(next.n_stones, expected.n_stones);
     EXPECT_EQ(next.policy, 44);
 }
