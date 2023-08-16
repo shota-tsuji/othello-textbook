@@ -29,7 +29,7 @@ inline void input_board(int arr[]) {
     for (int i = 0; i < hw2; ++i) {
         cin >> elem;
         if (elem == '0')
-            arr[i] = black;
+            arr[i] = Black;
         else if (elem == '1')
             arr[i] = white;
         else

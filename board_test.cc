@@ -49,7 +49,7 @@ TEST(BoradTest, LegalJudge) {
     board_init();
 
     board b;
-    b.translate_from_arr(make_vector_d3c5(), black);
+    b.translate_from_arr(make_vector_d3c5(), Black);
     b.print();
 
     EXPECT_TRUE(!b.legal(0));
@@ -78,7 +78,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
     // d3c5
     board previous_board;
-    previous_board.translate_from_arr(make_vector_d3c5(), black);
+    previous_board.translate_from_arr(make_vector_d3c5(), Black);
     board next = previous_board.move(44);
 
     bool same = true;
