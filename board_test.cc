@@ -32,25 +32,6 @@ TEST(BoradTest, LegalJudgeAllBlack) {
     EXPECT_TRUE(!b.legal(0));
 }
 
-// ...................0.......00.....111...........................
-TEST(BoradTest, LegalJudge) {
-    std::vector<int> board_array(hw2, 2);
-    board_array[19] = 0;
-    board_array[27] = 0;
-    board_array[28] = 0;
-    board_array[34] = 1;
-    board_array[35] = 1;
-    board_array[36] = 1;
-
-    board_init();
-    board b;
-    b.translate_from_arr(board_array, 0);
-    b.print();
-
-    EXPECT_TRUE(!b.legal(0));
-    EXPECT_TRUE(b.legal(41));
-}
-
 std::vector<int> make_vector_d3c5() {
     std::vector<int> v(hw2, 2);
     v[19] = 0;
@@ -61,6 +42,18 @@ std::vector<int> make_vector_d3c5() {
     v[36] = 1;
 
     return v;
+}
+
+// ...................0.......00.....111...........................
+TEST(BoradTest, LegalJudge) {
+    board_init();
+
+    board b;
+    b.translate_from_arr(make_vector_d3c5(), 0);
+    b.print();
+
+    EXPECT_TRUE(!b.legal(0));
+    EXPECT_TRUE(b.legal(41));
 }
 
 std::vector<int> make_vector_d3c5e6() {
