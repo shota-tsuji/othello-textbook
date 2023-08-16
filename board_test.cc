@@ -49,7 +49,7 @@ TEST(BoradTest, LegalJudge) {
     board_init();
 
     board b;
-    b.translate_from_arr(make_vector_d3c5(), 0);
+    b.translate_from_arr(make_vector_d3c5(), black);
     b.print();
 
     EXPECT_TRUE(!b.legal(0));
@@ -74,11 +74,11 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
     // d3c5e6
     board expected;
-    expected.translate_from_arr(make_vector_d3c5e6(), 0);
+    expected.translate_from_arr(make_vector_d3c5e6(), black);
 
     // d3c5
     board previous_board;
-    previous_board.translate_from_arr(make_vector_d3c5(), 0);
+    previous_board.translate_from_arr(make_vector_d3c5(), black);
     board next = previous_board.move(44);
 
     bool same = true;
@@ -89,7 +89,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
         }
     }
     EXPECT_TRUE(same);
-    EXPECT_EQ(next.player, 1);
+    EXPECT_EQ(next.player, white);
     EXPECT_EQ(next.n_stones, previous_board.n_stones + 1);
     EXPECT_EQ(next.policy, 44);
 }
