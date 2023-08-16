@@ -51,16 +51,16 @@ TEST(BoradTest, LegalJudge) {
     EXPECT_TRUE(b.legal(41));
 }
 
-std::vector<int> make_board_d3c5() {
-    std::vector<int> board_array(hw2, 2);
-    board_array[19] = 0;
-    board_array[27] = 0;
-    board_array[28] = 0;
-    board_array[34] = 1;
-    board_array[35] = 1;
-    board_array[36] = 1;
+std::vector<int> make_vector_d3c5() {
+    std::vector<int> v(hw2, 2);
+    v[19] = 0;
+    v[27] = 0;
+    v[28] = 0;
+    v[34] = 1;
+    v[35] = 1;
+    v[36] = 1;
 
-    return board_array;
+    return v;
 }
 
 std::vector<int> make_board_d3c5e6() {
@@ -77,12 +77,11 @@ std::vector<int> make_board_d3c5e6() {
 }
 
 TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
-    // d3c5
-    std::vector<int> board_array = make_board_d3c5();
-
     board_init();
+
+    // d3c5
     board previous_board;
-    previous_board.translate_from_arr(board_array, 0);
+    previous_board.translate_from_arr(make_vector_d3c5(), 0);
 
     // d3c5e6
     std::vector<int> next_array = make_board_d3c5e6();
