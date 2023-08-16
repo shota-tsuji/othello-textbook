@@ -63,30 +63,29 @@ std::vector<int> make_vector_d3c5() {
     return v;
 }
 
-std::vector<int> make_board_d3c5e6() {
-    std::vector<int> next_array(hw2, 2);
-    next_array[19] = 0;
-    next_array[27] = 0;
-    next_array[28] = 0;
-    next_array[34] = 1;
-    next_array[35] = 1;
-    next_array[36] = 0;
-    next_array[44] = 0;
+std::vector<int> make_vector_d3c5e6() {
+    std::vector<int> v(hw2, 2);
+    v[19] = 0;
+    v[27] = 0;
+    v[28] = 0;
+    v[34] = 1;
+    v[35] = 1;
+    v[36] = 0;
+    v[44] = 0;
 
-    return next_array;
+    return v;
 }
 
 TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     board_init();
 
+    // d3c5e6
+    board expected;
+    expected.translate_from_arr(make_vector_d3c5e6(), 0);
+
     // d3c5
     board previous_board;
     previous_board.translate_from_arr(make_vector_d3c5(), 0);
-
-    // d3c5e6
-    std::vector<int> next_array = make_board_d3c5e6();
-    board expected;
-    expected.translate_from_arr(next_array, 0);
     board next = previous_board.move(44);
 
     bool same = true;
