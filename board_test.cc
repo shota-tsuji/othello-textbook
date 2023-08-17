@@ -23,14 +23,13 @@ TEST(BoradTest, Initialization) {
 
 // 0000000000000000000000000000000000000000000000000000000000000000
 TEST(BoradTest, LegalJudgeAllBlack) {
-    std::vector<int> board_array(hw2, Black);
-
     board_init();
+
     board b;
+    std::vector<int> board_array(hw2, Black);
     b.translate_from_arr(board_array, Black);
 
-    EXPECT_TRUE(!b.legal(0));
-    // EXPECT_FALSE(b.legal(0));
+    EXPECT_FALSE(b.legal(0));
 }
 
 std::vector<int> make_vector_d3c5() {
@@ -53,7 +52,7 @@ TEST(BoradTest, LegalJudge) {
     b.translate_from_arr(make_vector_d3c5(), Black);
     b.print();
 
-    EXPECT_TRUE(!b.legal(0));
+    EXPECT_FALSE(b.legal(0));
     EXPECT_TRUE(b.legal(41));
 }
 
