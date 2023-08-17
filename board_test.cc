@@ -23,23 +23,24 @@ TEST(BoradTest, Initialization) {
 
 // 0000000000000000000000000000000000000000000000000000000000000000
 TEST(BoradTest, LegalJudgeAllBlack) {
-    std::vector<int> board_array(hw2, 0);
+    std::vector<int> board_array(hw2, Black);
 
     board_init();
     board b;
     b.translate_from_arr(board_array, 0);
 
     EXPECT_TRUE(!b.legal(0));
+    // EXPECT_FALSE(b.legal(0));
 }
 
 std::vector<int> make_vector_d3c5() {
-    std::vector<int> v(hw2, 2);
-    v[19] = 0;
-    v[27] = 0;
-    v[28] = 0;
-    v[34] = 1;
-    v[35] = 1;
-    v[36] = 1;
+    std::vector<int> v(hw2, Vacant);
+    v[19] = Black;
+    v[27] = Black;
+    v[28] = Black;
+    v[34] = White;
+    v[35] = White;
+    v[36] = White;
 
     return v;
 }
@@ -57,14 +58,14 @@ TEST(BoradTest, LegalJudge) {
 }
 
 std::vector<int> make_vector_d3c5e6() {
-    std::vector<int> v(hw2, 2);
-    v[19] = 0;
-    v[27] = 0;
-    v[28] = 0;
-    v[34] = 1;
-    v[35] = 1;
-    v[36] = 0;
-    v[44] = 0;
+    std::vector<int> v(hw2, Vacant);
+    v[19] = Black;
+    v[27] = Black;
+    v[28] = Black;
+    v[34] = White;
+    v[35] = White;
+    v[36] = Black;
+    v[44] = Black;
 
     return v;
 }
