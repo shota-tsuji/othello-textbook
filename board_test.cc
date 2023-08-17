@@ -67,6 +67,19 @@ public:
 
         return v;
     }
+
+    static std::vector<int> d3c5e6() {
+        std::vector<int> v(hw2, Vacant);
+        v[19] = Black;
+        v[27] = Black;
+        v[28] = Black;
+        v[34] = White;
+        v[35] = White;
+        v[36] = Black;
+        v[44] = Black;
+
+        return v;
+    }
 };
 
 // ...................0.......00.....111...........................
@@ -81,25 +94,12 @@ TEST(BoradTest, LegalJudge) {
     EXPECT_TRUE(b.legal(41));
 }
 
-std::vector<int> make_vector_d3c5e6() {
-    std::vector<int> v(hw2, Vacant);
-    v[19] = Black;
-    v[27] = Black;
-    v[28] = Black;
-    v[34] = White;
-    v[35] = White;
-    v[36] = Black;
-    v[44] = Black;
-
-    return v;
-}
-
 TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     board_init();
 
     // d3c5e6
     board expected;
-    expected.translate_from_arr(make_vector_d3c5e6(), White);
+    expected.translate_from_arr(TestBoard::d3c5e6(), White);
 
     // d3c5
     board previous_board;
