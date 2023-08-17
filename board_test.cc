@@ -82,7 +82,7 @@ TEST(BoradTest, LegalJudgeAllBlack) {
     board b;
     b.translate_from_arr(TestBoard::all_black(), Black);
 
-    EXPECT_FALSE(b.legal(0));
+    EXPECT_FALSE(b.legal(A1));
 }
 
 // ...................0.......00.....111...........................
@@ -93,8 +93,8 @@ TEST(BoradTest, LegalJudge) {
     b.translate_from_arr(TestBoard::d3c5(), Black);
     b.print();
 
-    EXPECT_FALSE(b.legal(0));
-    EXPECT_TRUE(b.legal(41));
+    EXPECT_FALSE(b.legal(A1));
+    EXPECT_TRUE(b.legal(B6));
 }
 
 TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
@@ -107,7 +107,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     // d3c5
     board previous_board;
     previous_board.translate_from_arr(TestBoard::d3c5(), Black);
-    board next = previous_board.move(44);
+    board next = previous_board.move(E6);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -119,5 +119,5 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     EXPECT_TRUE(same);
     EXPECT_EQ(next.player, expected.player);
     EXPECT_EQ(next.n_stones, expected.n_stones);
-    EXPECT_EQ(next.policy, 44);
+    EXPECT_EQ(next.policy, E6);
 }
