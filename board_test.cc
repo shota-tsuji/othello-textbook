@@ -54,24 +54,27 @@ TEST(BoradTest, LegalJudgeAllBlack) {
     EXPECT_FALSE(b.legal(0));
 }
 
-std::vector<int> make_vector_d3c5() {
-    std::vector<int> v(hw2, Vacant);
-    v[19] = Black;
-    v[27] = Black;
-    v[28] = Black;
-    v[34] = White;
-    v[35] = White;
-    v[36] = White;
+class TestBoard {
+public:
+    static std::vector<int> d3c5() {
+        std::vector<int> v(hw2, Vacant);
+        v[19] = Black;
+        v[27] = Black;
+        v[28] = Black;
+        v[34] = White;
+        v[35] = White;
+        v[36] = White;
 
-    return v;
-}
+        return v;
+    }
+};
 
 // ...................0.......00.....111...........................
 TEST(BoradTest, LegalJudge) {
     board_init();
 
     board b;
-    b.translate_from_arr(make_vector_d3c5(), Black);
+    b.translate_from_arr(TestBoard::d3c5(), Black);
     b.print();
 
     EXPECT_FALSE(b.legal(0));
@@ -100,7 +103,7 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
     // d3c5
     board previous_board;
-    previous_board.translate_from_arr(make_vector_d3c5(), Black);
+    previous_board.translate_from_arr(TestBoard::d3c5(), Black);
     board next = previous_board.move(44);
 
     bool same = true;
