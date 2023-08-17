@@ -27,7 +27,7 @@ TEST(BoradTest, LegalJudgeAllBlack) {
 
     board_init();
     board b;
-    b.translate_from_arr(board_array, 0);
+    b.translate_from_arr(board_array, Black);
 
     EXPECT_TRUE(!b.legal(0));
     // EXPECT_FALSE(b.legal(0));
