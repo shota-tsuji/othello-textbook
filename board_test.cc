@@ -1,6 +1,39 @@
 #include <gtest/gtest.h>
 #include "board.hpp"
 
+class TestBoard {
+public:
+    static std::vector<int> d3c5() {
+        std::vector<int> v(hw2, Vacant);
+        v[19] = Black;
+        v[27] = Black;
+        v[28] = Black;
+        v[34] = White;
+        v[35] = White;
+        v[36] = White;
+
+        return v;
+    }
+
+    static std::vector<int> d3c5e6() {
+        std::vector<int> v(hw2, Vacant);
+        v[19] = Black;
+        v[27] = Black;
+        v[28] = Black;
+        v[34] = White;
+        v[35] = White;
+        v[36] = Black;
+        v[44] = Black;
+
+        return v;
+    }
+
+    static std::vector<int> all_black() {
+        std::vector<int> v(hw2, Black);
+        return v;
+    }
+};
+
 TEST(BoradTest, Initialization) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
@@ -28,8 +61,7 @@ TEST(BoradTest, Initialization2) {
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
 
     board b;
-    std::vector<int> board_array(hw2, Black);
-    b.translate_from_arr(board_array, Black);
+    b.translate_from_arr(TestBoard::all_black(), Black);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -48,39 +80,10 @@ TEST(BoradTest, LegalJudgeAllBlack) {
     board_init();
 
     board b;
-    std::vector<int> board_array(hw2, Black);
-    b.translate_from_arr(board_array, Black);
+    b.translate_from_arr(TestBoard::all_black(), Black);
 
     EXPECT_FALSE(b.legal(0));
 }
-
-class TestBoard {
-public:
-    static std::vector<int> d3c5() {
-        std::vector<int> v(hw2, Vacant);
-        v[19] = Black;
-        v[27] = Black;
-        v[28] = Black;
-        v[34] = White;
-        v[35] = White;
-        v[36] = White;
-
-        return v;
-    }
-
-    static std::vector<int> d3c5e6() {
-        std::vector<int> v(hw2, Vacant);
-        v[19] = Black;
-        v[27] = Black;
-        v[28] = Black;
-        v[34] = White;
-        v[35] = White;
-        v[36] = Black;
-        v[44] = Black;
-
-        return v;
-    }
-};
 
 // ...................0.......00.....111...........................
 TEST(BoradTest, LegalJudge) {
