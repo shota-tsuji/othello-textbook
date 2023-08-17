@@ -5,25 +5,25 @@ class TestBoard {
 public:
     static std::vector<int> d3c5() {
         std::vector<int> v(hw2, Vacant);
-        v[19] = Black;
-        v[27] = Black;
-        v[28] = Black;
-        v[34] = White;
-        v[35] = White;
-        v[36] = White;
+        v[D3] = Black;
+        v[D4] = Black;
+        v[E4] = Black;
+        v[C5] = White;
+        v[D5] = White;
+        v[E5] = White;
 
         return v;
     }
 
     static std::vector<int> d3c5e6() {
         std::vector<int> v(hw2, Vacant);
-        v[19] = Black;
-        v[27] = Black;
-        v[28] = Black;
-        v[34] = White;
-        v[35] = White;
-        v[36] = Black;
-        v[44] = Black;
+        v[D3] = Black;
+        v[D4] = Black;
+        v[E4] = Black;
+        v[C5] = White;
+        v[D5] = White;
+        v[E5] = Black;
+        v[E6] = Black;
 
         return v;
     }
