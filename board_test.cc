@@ -53,6 +53,14 @@ public:
     }
 };
 
+class BoardTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Common setup code that runs before each test case
+        board_init();
+    }
+};
+
 TEST(Board, Initialization) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
@@ -73,9 +81,7 @@ TEST(Board, Initialization) {
     EXPECT_EQ(b.n_stones, 64);
 }
 
-TEST(Board, Initialization2) {
-    board_init();
-
+TEST_F(BoardTest, Initialization2) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
 
