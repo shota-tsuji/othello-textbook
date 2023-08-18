@@ -12,6 +12,16 @@ public:
 
         return v;
     }
+    static std::vector<int> d3() {
+        std::vector<int> v(hw2, Vacant);
+        v[D3] = Black;
+        v[D4] = Black;
+        v[E4] = Black;
+        v[D5] = Black;
+        v[E5] = White;
+
+        return v;
+    }
     static std::vector<int> d3c5() {
         std::vector<int> v(hw2, Vacant);
         v[D3] = Black;
@@ -129,6 +139,29 @@ TEST(Board, EqualsToNextHandWhenMovedFromPreviousHand) {
     EXPECT_EQ(next.player, expected.player);
     EXPECT_EQ(next.n_stones, expected.n_stones);
     EXPECT_EQ(next.policy, E6);
+}
+
+TEST(Board, MoveFromBeginning) {
+    board_init();
+
+    board expected;
+    expected.translate_from_arr(TestBoard::d3(), White);
+
+    board b0;
+    b0.translate_from_arr(TestBoard::beginning(), Black);
+    board next = b0.move(D3);
+
+    bool same = true;
+    for (int i = 0; i < n_board_idx; ++i) {
+        if (next.board_idx[i] != expected.board_idx[i]) {
+            same = false;
+            break;
+        }
+    }
+    EXPECT_TRUE(same);
+    EXPECT_EQ(next.player, expected.player);
+    EXPECT_EQ(next.n_stones, expected.n_stones);
+    EXPECT_EQ(next.policy, D3);
 }
 
 TEST(Board, HashedValue) {
