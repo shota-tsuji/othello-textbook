@@ -61,10 +61,9 @@ protected:
     }
 };
 
-TEST(Board, Initialization) {
+TEST_F(BoardTest, Initialization) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
-    board_init();
     int arr[64] = {0};
     board b;
     b.translate_from_arr(arr, 0);
@@ -101,9 +100,7 @@ TEST_F(BoardTest, Initialization2) {
 }
 
 // 0000000000000000000000000000000000000000000000000000000000000000
-TEST(Board, LegalJudgeAllBlack) {
-    board_init();
-
+TEST_F(BoardTest, LegalJudgeAllBlack) {
     board b;
     b.translate_from_arr(TestBoard::all_black(), Black);
 
@@ -111,9 +108,7 @@ TEST(Board, LegalJudgeAllBlack) {
 }
 
 // ...................0.......00.....111...........................
-TEST(Board, LegalJudge) {
-    board_init();
-
+TEST_F(BoardTest, LegalJudge) {
     board b;
     b.translate_from_arr(TestBoard::d3c5(), Black);
     b.print();
@@ -122,9 +117,7 @@ TEST(Board, LegalJudge) {
     EXPECT_TRUE(b.legal(B6));
 }
 
-TEST(Board, EqualsToNextHandWhenMovedFromPreviousHand) {
-    board_init();
-
+TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     // d3c5e6
     board expected;
     expected.translate_from_arr(TestBoard::d3c5e6(), White);
@@ -147,9 +140,7 @@ TEST(Board, EqualsToNextHandWhenMovedFromPreviousHand) {
     EXPECT_EQ(next.policy, E6);
 }
 
-TEST(Board, MoveFromBeginning) {
-    board_init();
-
+TEST_F(BoardTest, MoveFromBeginning) {
     board expected;
     expected.translate_from_arr(TestBoard::d3(), White);
 
@@ -170,8 +161,7 @@ TEST(Board, MoveFromBeginning) {
     EXPECT_EQ(next.policy, D3);
 }
 
-TEST(Board, HashedValue) {
-    board_init();
+TEST_F(BoardTest, HashedValue) {
     board::hash hashFunc;
 
     board b0;
@@ -188,9 +178,7 @@ TEST(Board, HashedValue) {
     EXPECT_EQ(18446744073212400438, hashFunc(b2));
 }
 
-TEST(Board, Equality) {
-    board_init();
-
+TEST_F(BoardTest, Equality) {
     board b0;
     b0.translate_from_arr(TestBoard::beginning(), Black);
     board b1;
