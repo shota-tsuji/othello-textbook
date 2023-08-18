@@ -3,6 +3,15 @@
 
 class TestBoard {
 public:
+    static std::vector<int> beginning() {
+        std::vector<int> v(hw2, Vacant);
+        v[D4] = White;
+        v[E4] = Black;
+        v[D5] = Black;
+        v[E5] = White;
+
+        return v;
+    }
     static std::vector<int> d3c5() {
         std::vector<int> v(hw2, Vacant);
         v[D3] = Black;
@@ -120,4 +129,15 @@ TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     EXPECT_EQ(next.player, expected.player);
     EXPECT_EQ(next.n_stones, expected.n_stones);
     EXPECT_EQ(next.policy, E6);
+}
+
+// When calculating the hash value of the initial board, it is xxx.
+TEST(Board, HashedValue) {
+    board_init();
+
+    board b;
+    b.translate_from_arr(TestBoard::beginning(), Black);
+
+    board::hash hashFunc;
+    EXPECT_EQ(18446744073305302956, hashFunc(b));
 }
