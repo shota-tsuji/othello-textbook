@@ -43,7 +43,7 @@ public:
     }
 };
 
-TEST(BoradTest, Initialization) {
+TEST(Board, Initialization) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
     board_init();
@@ -63,7 +63,7 @@ TEST(BoradTest, Initialization) {
     EXPECT_EQ(b.n_stones, 64);
 }
 
-TEST(BoradTest, Initialization2) {
+TEST(Board, Initialization2) {
     board_init();
 
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
@@ -85,7 +85,7 @@ TEST(BoradTest, Initialization2) {
 }
 
 // 0000000000000000000000000000000000000000000000000000000000000000
-TEST(BoradTest, LegalJudgeAllBlack) {
+TEST(Board, LegalJudgeAllBlack) {
     board_init();
 
     board b;
@@ -95,7 +95,7 @@ TEST(BoradTest, LegalJudgeAllBlack) {
 }
 
 // ...................0.......00.....111...........................
-TEST(BoradTest, LegalJudge) {
+TEST(Board, LegalJudge) {
     board_init();
 
     board b;
@@ -106,7 +106,7 @@ TEST(BoradTest, LegalJudge) {
     EXPECT_TRUE(b.legal(B6));
 }
 
-TEST(BoradTest, EqualsToNextHandWhenMovedFromPreviousHand) {
+TEST(Board, EqualsToNextHandWhenMovedFromPreviousHand) {
     board_init();
 
     // d3c5e6
