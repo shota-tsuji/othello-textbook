@@ -13,7 +13,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 include_directories(.)
-include_directories(evaluation)
+include_directories(
+        evaluation
+        tests
+)
 
 add_executable(OthelloAI_Textbook
         # evaluation/board.hpp
@@ -38,7 +41,7 @@ enable_testing()
 
 add_executable(
         board_test
-        board_test.cc
+        tests/board_test.cc
 )
 target_link_libraries(
         board_test
