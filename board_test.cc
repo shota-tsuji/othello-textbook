@@ -148,3 +148,21 @@ TEST(Board, HashedValue) {
     b2.translate_from_arr(TestBoard::d3c5e6(), Black);
     EXPECT_EQ(18446744073212400438, hashFunc(b2));
 }
+
+TEST(Board, Equality) {
+    board_init();
+
+    board b0;
+    b0.translate_from_arr(TestBoard::beginning(), Black);
+    board b1;
+    b1.translate_from_arr(TestBoard::beginning(), White);
+    board b2;
+    b2.translate_from_arr(TestBoard::beginning(), Black);
+    board b3;
+    b3.translate_from_arr(TestBoard::all_black(), Black);
+
+    EXPECT_EQ(b0, b0);
+    EXPECT_EQ(b0, b2);
+    EXPECT_NE(b0, b1);
+    EXPECT_NE(b0, b3);
+}
