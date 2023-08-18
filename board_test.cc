@@ -131,13 +131,20 @@ TEST(Board, EqualsToNextHandWhenMovedFromPreviousHand) {
     EXPECT_EQ(next.policy, E6);
 }
 
-// When calculating the hash value of the initial board, it is xxx.
 TEST(Board, HashedValue) {
     board_init();
-
-    board b;
-    b.translate_from_arr(TestBoard::beginning(), Black);
-
     board::hash hashFunc;
-    EXPECT_EQ(18446744073305302956, hashFunc(b));
+
+    board b0;
+    b0.translate_from_arr(TestBoard::beginning(), Black);
+
+    EXPECT_EQ(18446744073305302956, hashFunc(b0));
+
+    board b1;
+    b1.translate_from_arr(TestBoard::d3c5(), Black);
+    EXPECT_EQ(18446744073291327783, hashFunc(b1));
+
+    board b2;
+    b2.translate_from_arr(TestBoard::d3c5e6(), Black);
+    EXPECT_EQ(18446744073212400438, hashFunc(b2));
 }
