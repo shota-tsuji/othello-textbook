@@ -39,14 +39,12 @@ add_executable(OthelloAI_Textbook
 
 enable_testing()
 
-add_executable(
-        board_test
-        tests/board_test.cc
-)
-target_link_libraries(
-        board_test
-        GTest::gtest_main
-)
+add_executable(board_test tests/board_test.cc)
+target_link_libraries(board_test GTest::gtest_main)
+
+add_executable(evaluation_test tests/evaluation_test.cpp)
+target_link_libraries(evaluation_test GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(board_test)
+gtest_discover_tests(evaluation_test)
