@@ -27,3 +27,11 @@ TEST_F(EvaluationTest, d3c5e6) {
 
     EXPECT_EQ(-3, evaluate(b));
 }
+
+TEST_F(EvaluationTest, all_black) {
+    board b;
+    b.translate_from_arr(TestBoard::all_black(), Black);
+    b.print();
+
+    EXPECT_EQ(-104, evaluate(b));
+}
