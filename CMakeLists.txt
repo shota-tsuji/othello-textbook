@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
+# cmake_minimum_required(VERSION 3.25)
 project(Othello_textbook CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -6,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 FetchContent_Declare(
         googletest
-        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG        03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -45,6 +47,10 @@ target_link_libraries(board_test GTest::gtest_main)
 add_executable(evaluation_test tests/evaluation_test.cpp)
 target_link_libraries(evaluation_test GTest::gtest_main)
 
+# add_executable(negascout_test tests/negascout_test.cpp)
+# target_link_libraries(negascout_test GTest::gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(board_test)
 gtest_discover_tests(evaluation_test)
+# gtest_discover_tests(negascout_test)
