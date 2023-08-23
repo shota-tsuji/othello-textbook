@@ -28,3 +28,23 @@ TEST_F(NegascoutTest, move_ordering) {
 
     EXPECT_EQ(3, calc_move_ordering_value(black_d3c5));
 }
+
+TEST_F(NegascoutTest, move_ordering_upper_bonus) {
+    const int point = 100;
+    board b;
+    b.translate_from_arr(TestBoard::d3c5e6(), Black);
+    b.print();
+    former_transpose_table_lower[b] = point - 1;
+    former_transpose_table_upper[b] = point;
+
+    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+}
+
+TEST_F(NegascoutTest, move_ordering_lower_bonus) {
+    const int point = 100;
+    board b;
+    b.translate_from_arr(TestBoard::d3c5e6(), Black);
+    former_transpose_table_lower[b] = point;
+
+    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+}
