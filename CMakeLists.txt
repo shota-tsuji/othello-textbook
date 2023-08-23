@@ -47,10 +47,10 @@ target_link_libraries(board_test GTest::gtest_main)
 add_executable(evaluation_test tests/evaluation_test.cpp)
 target_link_libraries(evaluation_test GTest::gtest_main)
 
-# add_executable(negascout_test tests/negascout_test.cpp)
-# target_link_libraries(negascout_test GTest::gtest_main)
+add_executable(negascout_test tests/negascout_test.cpp)
+target_link_libraries(negascout_test GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(board_test)
 gtest_discover_tests(evaluation_test)
-# gtest_discover_tests(negascout_test)
+gtest_discover_tests(negascout_test)

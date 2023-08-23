@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-//#include "board.hpp"
+#include "board.hpp"
 #include "utility.hpp"
-#include "ai5_negascout.cpp"
+#include "search.h"
 
 
 class NegascoutTest : public ::testing::Test {
@@ -13,10 +13,18 @@ protected:
     }
 };
 
-TEST_F(NegascoutTest, d3c5) {
+// TEST_F(NegascoutTest, d3c5) {
+//     board black_d3c5;
+//     black_d3c5.translate_from_arr(TestBoard::d3c5(), Black);
+//     black_d3c5.print();
+//
+//     EXPECT_EQ(0, search(black_d3c5, 8));
+// }
+
+TEST_F(NegascoutTest, move_ordering) {
     board black_d3c5;
-    black_d3c5.translate_from_arr(TestBoard::d3c5(), Black);
+    black_d3c5.translate_from_arr(TestBoard::d3c5e6(), Black);
     black_d3c5.print();
 
-    EXPECT_EQ(0, search(black_d3c5, 8));
+    EXPECT_EQ(3, calc_move_ordering_value(black_d3c5));
 }
