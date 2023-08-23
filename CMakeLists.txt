@@ -20,7 +20,7 @@ include_directories(
         tests
 )
 
-add_executable(OthelloAI_Textbook
+add_executable(othello
         # evaluation/board.hpp
         # evaluation/calc_additional_params.cpp
         # evaluation/mobility_surround_evaluation.hpp

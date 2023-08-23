@@ -180,7 +180,7 @@ elif sys.argv[1] == 'cui':
         print('0か1を入力してください')
         exit()
     
-    ai_exe = subprocess.Popen('./ai.out'.split(), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    ai_exe = subprocess.Popen('./build/othello'.split(), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     ai_exe.stdin.write((str(ai_player) + '\n').encode('utf-8'))
     ai_exe.stdin.flush()
     
