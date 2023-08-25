@@ -48,3 +48,10 @@ TEST_F(NegascoutTest, move_ordering_lower_bonus) {
 
     EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
 }
+
+TEST_F(NegascoutTest, nega_alpha_depth0) {
+    board b;
+    b.translate_from_arr(TestBoard::d3c5e6(), Black);
+
+    EXPECT_EQ(-3, nega_alpha_transpose(b, 0, false, -1, -1));
+}

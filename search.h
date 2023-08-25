@@ -8,8 +8,8 @@
 #include "board.hpp"
 #include "cell_evaluation.hpp"
 
-#define inf 100000000               // 大きな値
-#define cache_hit_bonus 1000        // 前回の探索で枝刈りされなかったノードへのボーナス
+const int inf = 100000000;   // 大きな値
+const int cache_hit_bonus = 1000;   // 前回の探索で枝刈りされなかったノードへのボーナス
 unsigned long long visited_nodes; // 訪問ノード数
 
 using namespace std;

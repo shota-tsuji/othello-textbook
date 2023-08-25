@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.22)
 project(Othello_textbook CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_FLAGS "--coverage")
+set(CMAKE_CXX_FLAGS "-fprofile-instr-generate -fcoverage-mapping")
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 
 include(FetchContent)
 FetchContent_Declare(
