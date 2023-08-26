@@ -33,12 +33,12 @@ inline void input_board(int arr[]) {
 
 
 // negascout法
-int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
+int nega_scout(board b, int depth, bool passed, int alpha, int beta, int cell_score[hw / 2][n_line]) {
     ++visited_nodes;
 
     // 葉ノードでは評価関数を実行する
     if (depth == 0)
-        return evaluate(b);
+        return evaluate(b, cell_score);
 
     // 置換表から上限値と下限値があれば取得
     int u = inf, l = -inf;
@@ -70,9 +70,9 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
     if (canput == 0) {
         // 2回連続パスなら評価関数を実行
         if (passed)
-            return evaluate(b);
+            return evaluate(b, cell_score);
         b.player = 1 - b.player;
-        return -nega_scout(b, depth, true, -beta, -alpha);
+        return -nega_scout(b, depth, true, -beta, -alpha, cell_score);
     }
 
     // move ordering実行
@@ -80,7 +80,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
         sort(child_nodes.begin(), child_nodes.end());
 
     // まず最善手候補を通常窓で探索
-    g = -nega_scout(child_nodes[0], depth - 1, false, -beta, -alpha);
+    g = -nega_scout(child_nodes[0], depth - 1, false, -beta, -alpha, cell_score);
     if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
         if (g > l) {
             // 置換表の下限値に登録
@@ -104,7 +104,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
         }
         if (g > alpha) { // 最善手候補よりも良い手が見つかった場合は再探索
             alpha = g;
-            g = -nega_scout(child_nodes[i], depth - 1, false, -beta, -alpha);
+            g = -nega_scout(child_nodes[i], depth - 1, false, -beta, -alpha, cell_score);
             if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
                 if (g > l) {
                     // 置換表の下限値に登録
@@ -128,7 +128,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta) {
 }
 
 // depth手読みの探索
-int search(board b, int depth) {
+int search(board b, int depth, int cell_score[hw / 2][n_line]) {
     visited_nodes = 0;
     transpose_table_upper.clear();
     transpose_table_lower.clear();
@@ -158,7 +158,7 @@ int search(board b, int depth) {
         }
 
         // 最善手候補を通常窓で探索
-        score = -nega_scout(child_nodes[0], search_depth - 1, false, -beta, -alpha);
+        score = -nega_scout(child_nodes[0], search_depth - 1, false, -beta, -alpha, cell_score);
         alpha = score;
         res = child_nodes[0].policy;
 
@@ -168,7 +168,7 @@ int search(board b, int depth) {
             // 最善手候補よりも良い手が見つかった
             if (alpha < score) {
                 alpha = score;
-                score = -nega_scout(child_nodes[i], search_depth - 1, false, -beta, -alpha);
+                score = -nega_scout(child_nodes[i], search_depth - 1, false, -beta, -alpha, cell_score);
                 res = child_nodes[i].policy;
             }
             alpha = max(alpha, score);
@@ -184,6 +184,7 @@ int search(board b, int depth) {
 
 int main() {
     init();
+    ArrStruct a = make_score();
     int arr[64];
     board b;
     int ai_player, policy;
@@ -191,9 +192,9 @@ int main() {
     while (true) {
         input_board(arr);
         b.translate_from_arr(arr, ai_player);
-        cerr << evaluate(b) << endl;
+        cerr << evaluate(b, a.cell_score) << endl;
         b.print();
-        policy = search(b, 8);
+        policy = search(b, 8, a.cell_score);
         cout << policy / hw << " " << policy % hw << endl;
     }
     return 0;
