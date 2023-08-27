@@ -116,6 +116,12 @@ struct PutInfo {
 };
 PutInfo make_put_info();
 
+struct IncludedInfo {
+    // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
+    int place_included[hw2][4];
+};
+IncludedInfo make_included_info();
+
 class Infos {
 public:
     LegalInfo li;
@@ -123,6 +129,7 @@ public:
     ArrStruct csi;
     FlipInfo fi;
     PutInfo pi;
+    IncludedInfo ii;
     Infos();
 };
 
@@ -206,10 +213,10 @@ public:
     inline bool is_legal(int g_place, Infos infos) {
         bool res = false;
         for (int i = 0; i < 3; ++i) {
-            int idx = place_included[g_place][i];
+            int idx = infos.ii.place_included[g_place][i];
             res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
         }
-        int idx = place_included[g_place][3];
+        int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
             res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
         }
@@ -246,15 +253,15 @@ public:
         move_p(&res, g_place, 0, infos);
         move_p(&res, g_place, 1, infos);
         move_p(&res, g_place, 2, infos);
-        if (place_included[g_place][3] != -1) {
+        if (infos.ii.place_included[g_place][3] != -1) {
             move_p(&res, g_place, 3, infos);
         }
 
         for (int i = 0; i < 3; ++i) {
-            int idx = place_included[g_place][i];
+            int idx = infos.ii.place_included[g_place][i];
             res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
         }
-        int idx = place_included[g_place][3];
+        int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
             res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
         }
@@ -315,10 +322,10 @@ private:
     // 石をひっくり返す
     inline void do_flip(board *res, int g_place, Infos infos) {
         for (int i = 0; i < 3; ++i) {
-            int idx = place_included[g_place][i];
+            int idx = infos.ii.place_included[g_place][i];
             res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
         }
-        int idx = place_included[g_place][3];
+        int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
             res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
         }
@@ -326,7 +333,7 @@ private:
 
     // 石をひっくり返す
     inline void move_p(board *res, int g_place, int i, Infos infos) {
-        const int idx = place_included[g_place][i];
+        const int idx = infos.ii.place_included[g_place][i];
         const int place = local_place[idx][g_place];
         for (int j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[idx]][place][0]; ++j) {
             // printf("left: move_p");

@@ -80,6 +80,7 @@ Infos::Infos() {
     csi = make_score();
     fi = make_flip_info();
     pi = make_put_info();
+    ii = make_included_info();
 }
 
 int create_one_color(int idx, const int k) {
@@ -93,19 +94,26 @@ int create_one_color(int idx, const int k) {
     return res;
 }
 
-void board_init() {
+IncludedInfo make_included_info() {
+    IncludedInfo ii;
 
     for (int place = 0; place < hw2; ++place) {
         int inc_idx = 0;
         for (int idx = 0; idx < n_board_idx; ++idx) {
             for (int l_place = 0; l_place < hw; ++l_place) {
                 if (global_place[idx][l_place] == place)
-                    place_included[place][inc_idx++] = idx;
+                    ii.place_included[place][inc_idx++] = idx;
             }
         }
         if (inc_idx == 3)
-            place_included[place][inc_idx] = -1;
+            ii.place_included[place][inc_idx] = -1;
     }
+
+    return ii;
+}
+
+void board_init() {
+
 
     for (int idx = 0; idx < n_board_idx; ++idx) {
         for (int place = 0; place < hw2; ++place) {
