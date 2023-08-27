@@ -23,3 +23,17 @@ COPY . .
 # RUN ["cmake", "-S .", "-B build", "&&", "cmake", "--build build -v"]
 # RUN ["cmake", "-S .", "-B build"]
 RUN cmake -S . -B build && cmake --build build -v
+RUN ./build/UnitTestExecutor \
+    && lcov -d ./build/CMakeFiles/UnitTestExecutor.dir/ -c -o coverage.info \
+    && lcov -r coverage.info */googletest/* test/* */c++/* -o coverage.info \
+    && genhtml -o report/html --num-spaces 4 -s --legend coverage.info
+# cd build/
+# ./UnitTestExecutor
+# cd CMakeFiles/UnitTestExecutor.dir/
+# lcov -d . -c -o coverage.info
+# lcov -r coverage.info */googletest/* test/* */c++/* -o coverageFiltered.info
+# genhtml -o lcovHtml --num-spaces 4 -s --legend coverageFiltered.info
+# /app/build/CMakeFiles/UnitTestExecutor.dir
+
+# docker cp othello:/app/build/CMakeFiles/UnitTestExecutor.dir/lcovHtml /tmp/
+
