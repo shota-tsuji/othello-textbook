@@ -54,11 +54,32 @@ FlipInfo make_flip_info() {
     return fi;
 }
 
+PutInfo make_put_info() {
+    PutInfo pi;
+    for (int idx = 0; idx < n_line; ++idx) {
+        int b = create_one_color(idx, 0);
+        int w = create_one_color(idx, 1);
+        for (int place = 0; place < hw; ++place) {
+            pi.put_arr[Black][idx][place] = idx;
+            pi.put_arr[White][idx][place] = idx;
+            if (b & (1 << (hw - 1 - place))) {}
+            else if (w & (1 << (hw - 1 - place))) {}
+            else {
+                pi.put_arr[Black][idx][place] -= pow3_1[hw - 1 - place] * 2;
+                pi.put_arr[White][idx][place] -= pow3_1[hw - 1 - place];
+            }
+        }
+    }
+
+    return pi;
+}
+
 Infos::Infos() {
     mi = make_movement();
     li = make_legal_arr(mi.move_arr);
     csi = make_score();
     fi = make_flip_info();
+    pi = make_put_info();
 }
 
 int create_one_color(int idx, const int k) {
@@ -73,24 +94,6 @@ int create_one_color(int idx, const int k) {
 }
 
 void board_init() {
-    for (int idx = 0; idx < n_line; ++idx) {
-        int b = create_one_color(idx, 0);
-        int w = create_one_color(idx, 1);
-        for (int place = 0; place < hw; ++place) {
-            put_arr[Black][idx][place] = idx;
-            put_arr[White][idx][place] = idx;
-            if (b & (1 << (hw - 1 - place))) {
-                //flip_arr[White][idx][place] += pow3_1[hw - 1 - place];
-            }
-            else if (w & (1 << (hw - 1 - place))) {
-                //flip_arr[Black][idx][place] -= pow3_1[hw - 1 - place];
-            }
-            else {
-                put_arr[Black][idx][place] -= pow3_1[hw - 1 - place] * 2;
-                put_arr[White][idx][place] -= pow3_1[hw - 1 - place];
-            }
-        }
-    }
 
     for (int place = 0; place < hw2; ++place) {
         int inc_idx = 0;

@@ -61,7 +61,6 @@ const int global_place[n_board_idx][hw] = {
 };
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
-int put_arr[2][n_line][hw];         // put_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置に着手した後のインデックス
 int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
 int place_included[hw2][4];         // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
 
@@ -111,12 +110,19 @@ struct FlipInfo {
 };
 FlipInfo make_flip_info();
 
+struct PutInfo {
+    // put_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置に着手した後のインデックス
+    int put_arr[2][n_line][hw];
+};
+PutInfo make_put_info();
+
 class Infos {
 public:
     LegalInfo li;
     MovementInfo mi;
     ArrStruct csi;
     FlipInfo fi;
+    PutInfo pi;
     Infos();
 };
 
@@ -237,9 +243,9 @@ public:
         if (place_included[g_place][3] != -1)
             move_p(&res, g_place, 3, infos);
         for (int i = 0; i < 3; ++i)
-            res.board_idx[place_included[g_place][i]] = put_arr[this->player][res.board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
+            res.board_idx[place_included[g_place][i]] = infos.pi.put_arr[this->player][res.board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
         if (place_included[g_place][3] != -1)
-            res.board_idx[place_included[g_place][3]] = put_arr[this->player][res.board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+            res.board_idx[place_included[g_place][3]] = infos.pi.put_arr[this->player][res.board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
         res.player = 1 - this->player;
         res.n_stones = this->n_stones + 1;
         res.policy = g_place;
