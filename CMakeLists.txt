@@ -50,7 +50,7 @@ add_executable(othello
 
 enable_testing()
 
-add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS})
+add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} board.cpp cell_evaluation.cpp)
 target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
 #add_executable(board_test tests/board_test.cc)
