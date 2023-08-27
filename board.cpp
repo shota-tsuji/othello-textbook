@@ -8,7 +8,7 @@ LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]) {
             if (move_arr[Black][idx][place][0] || move_arr[Black][idx][place][1])
                 li.legal_arr[Black][idx][place] = true;
             else
-                legal_arr[Black][idx][place] = false;
+                li.legal_arr[Black][idx][place] = false;
             if (move_arr[White][idx][place][0] || move_arr[White][idx][place][1])
                 li.legal_arr[White][idx][place] = true;
             else

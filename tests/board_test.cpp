@@ -50,20 +50,22 @@ TEST_F(BoardTest, Initialization2) {
 
 // 0000000000000000000000000000000000000000000000000000000000000000
 TEST_F(BoardTest, LegalJudgeAllBlack) {
+    Infos infos;
     board b;
     b.translate_from_arr(TestBoard::all_black(), Black);
 
-    EXPECT_FALSE(b.legal(A1));
+    EXPECT_FALSE(b.is_legal(A1, infos));
 }
 
 // ...................0.......00.....111...........................
 TEST_F(BoardTest, LegalJudge) {
+    Infos infos;
     board b;
     b.translate_from_arr(TestBoard::d3c5(), Black);
     b.print();
 
-    EXPECT_FALSE(b.legal(A1));
-    EXPECT_TRUE(b.legal(B6));
+    EXPECT_FALSE(b.is_legal(A1, infos));
+    EXPECT_TRUE(b.is_legal(B6, infos));
 }
 
 TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {

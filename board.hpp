@@ -59,13 +59,12 @@ const int global_place[n_board_idx][hw] = {
         {39, 46, 53, 60, -1, -1, -1, -1},
         {47, 54, 61, -1, -1, -1, -1, -1}
 };
-bool legal_arr[2][n_line][hw];      // legal_arr[プレイヤー][ボードのインデックス][マスの位置] = trueなら合法、falseなら非合法
+const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
+
 int flip_arr[2][n_line][hw];        // flip_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置をひっくり返した後のインデックス
 int put_arr[2][n_line][hw];         // put_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置に着手した後のインデックス
 int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
 int place_included[hw2][4];         // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
-//int reverse_board[n_line];          // reverse_board[ボードのインデックス] = そのインデックスにおけるボードの前後反転
-const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
 // インデックスからボードの1行/列をビットボードで生成する
 int create_one_color(int idx, const int k);
@@ -96,6 +95,7 @@ inline int move_line_half(const int p, const int o, const int place, const int k
 }
 
 struct LegalInfo {
+    // legal_arr[プレイヤー][ボードのインデックス][マスの位置] = trueなら合法、falseなら非合法
     bool legal_arr[2][n_line][hw];
 };
 LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]);
@@ -191,12 +191,12 @@ public:
 
     // 合法手判定
     // tests in specific patterns for each board instance
-    inline bool legal(int g_place) {
+    inline bool is_legal(int g_place, Infos infos) {
         bool res = false;
         for (int i = 0; i < 3; ++i)
-            res |= legal_arr[this->player][this->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
+            res |= infos.li.legal_arr[this->player][this->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
         if (place_included[g_place][3] != -1)
-            res |= legal_arr[this->player][this->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+            res |= infos.li.legal_arr[this->player][this->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
         return res;
     }
 

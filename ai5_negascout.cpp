@@ -59,7 +59,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
     int coord, g, max_score = -inf, canput = 0;
     vector<board> child_nodes;
     for (coord = 0; coord < hw2; ++coord) {
-        if (b.legal(coord)) {
+        if (b.is_legal(coord, infos)) {
             child_nodes.push_back(b.move(coord, infos));
             child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
             ++canput;
@@ -138,7 +138,7 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
     int coord, canput = 0;
     vector<board> child_nodes;
     for (coord = 0; coord < hw2; ++coord) {
-        if (b.legal(coord)) {
+        if (b.is_legal(coord, infos)) {
             child_nodes.push_back(b.move(coord, infos));
             ++canput;
         }
