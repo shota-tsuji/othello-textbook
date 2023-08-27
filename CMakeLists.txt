@@ -44,6 +44,7 @@ add_executable(othello
         cell_evaluation.hpp
         endgame_evaluation.hpp
         board.cpp
+        cell_evaluation.cpp
         # pattern_mobility_surround_evaluation.hpp
         )
 

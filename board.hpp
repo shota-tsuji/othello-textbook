@@ -1,3 +1,5 @@
+#ifndef BOARD_H
+#define BOARD_H
 #pragma once
 
 #include <iostream>
@@ -5,7 +7,6 @@
 #include "cell_evaluation.hpp"
 
 using namespace std;
-
 #define hw 8            // ボードの大きさ
 #define hw2 64          // ボードのマス数
 #define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
@@ -58,7 +59,6 @@ const int global_place[n_board_idx][hw] = {
         {39, 46, 53, 60, -1, -1, -1, -1},
         {47, 54, 61, -1, -1, -1, -1, -1}
 };
-int move_arr[2][n_line][hw][2];     // move_arr[プレイヤー][ボードのインデックス][マスの位置][0: 左 1: 右] = 何マスひっくり返せるか
 bool legal_arr[2][n_line][hw];      // legal_arr[プレイヤー][ボードのインデックス][マスの位置] = trueなら合法、falseなら非合法
 int flip_arr[2][n_line][hw];        // flip_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置をひっくり返した後のインデックス
 int put_arr[2][n_line][hw];         // put_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置に着手した後のインデックス
@@ -68,16 +68,7 @@ int place_included[hw2][4];         // place_included[マスの位置] = その�
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
 // インデックスからボードの1行/列をビットボードで生成する
-inline int create_one_color(int idx, const int k) {
-    int res = 0;
-    for (int i = 0; i < hw; ++i) {
-        if (idx % 3 == k) {
-            res |= 1 << i;
-        }
-        idx /= 3;
-    }
-    return res;
-}
+int create_one_color(int idx, const int k);
 
 // ビットボードにおける着手に使う
 inline int trans(const int pt, const int k) {
@@ -110,6 +101,7 @@ struct LegalInfo {
 LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]);
 
 struct MovementInfo {
+    // move_arr[プレイヤー][ボードのインデックス][マスの位置][0: 左 1: 右] = 何マスひっくり返せるか
     int move_arr[2][n_line][hw][2];
 };
 MovementInfo make_movement();
@@ -209,6 +201,7 @@ public:
     }
 
     // 着手
+    /*
     inline board move(const int g_place) {
         board res;
         for (int i = 0; i < n_board_idx; ++i)
@@ -227,6 +220,7 @@ public:
         res.policy = g_place;
         return res;
     }
+     */
     inline board move(const int g_place, Infos infos) {
         board res;
         for (int i = 0; i < n_board_idx; ++i)
@@ -302,16 +296,6 @@ private:
     }
 
     // 石をひっくり返す
-    inline void move_p(board *res, int g_place, int i) {
-        int j, place;
-        place = local_place[place_included[g_place][i]][g_place];
-        for (j = 1; j <= move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][0]; ++j)
-            // printf("left: move_p");
-            flip(res, g_place - move_offset[place_included[g_place][i]] * j);
-        for (j = 1; j <= move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
-            flip(res, g_place + move_offset[place_included[g_place][i]] * j);
-    }
-
     inline void move_p(board *res, int g_place, int i, Infos infos) {
         int j, place;
         place = local_place[place_included[g_place][i]][g_place];
@@ -334,3 +318,5 @@ enum {
     A7, B7, C7, D7, E7, F7, G7, H7,
     A8, B8, C8, D8, E8, F8, G8, H8,
 };
+int evaluate(board b, int cell_score[hw / 2][n_line]);
+#endif //BOARD_H
