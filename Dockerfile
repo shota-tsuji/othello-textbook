@@ -10,13 +10,13 @@ RUN apt-get update && apt-get upgrade -y \
     rsync ssh tar python3.11 git \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
-RUN mkdir -p /googletest/build
-WORKDIR /googletest/build
-RUN cmake .. ${CMAKE_OPTIONS} && make && make install
+# RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
+# RUN mkdir -p /googletest/build
+# WORKDIR /googletest/build
+# RUN cmake .. ${CMAKE_OPTIONS} && make && make install
 
 WORKDIR /app
-RUN rm -rf /googletest
+# RUN rm -rf /googletest
 COPY . .
 # RUN ["g++", "-O0", "-g", "ai5_negascout.cpp", "-o", "ai.out"]
 # cmake -S . -B build && cmake --build build -v && ctest --test-dir ./build --output-on-failure -V

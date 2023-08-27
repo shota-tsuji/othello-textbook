@@ -67,10 +67,6 @@ include(GoogleTest)
 # gtest_discover_tests(evaluation_test)
 # gtest_discover_tests(negascout_test)
 
-# add_custom_target(all_tests)
-# add_dependencies(all_tests board_test evaluation_test negascout_test)
-
-
 # ctest_coverage(build board_test)
 # ctest_coverage(evaluation_test)
 # ctest_coverage(negascout_test)
