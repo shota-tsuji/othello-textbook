@@ -205,10 +205,14 @@ public:
     // tests in specific patterns for each board instance
     inline bool is_legal(int g_place, Infos infos) {
         bool res = false;
-        for (int i = 0; i < 3; ++i)
-            res |= infos.li.legal_arr[this->player][this->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
-        if (place_included[g_place][3] != -1)
-            res |= infos.li.legal_arr[this->player][this->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+        for (int i = 0; i < 3; ++i) {
+            int idx = place_included[g_place][i];
+            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
+        }
+        int idx = place_included[g_place][3];
+        if (idx != -1) {
+            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
+        }
         return res;
     }
 
@@ -235,17 +239,26 @@ public:
      */
     inline board move(const int g_place, Infos infos) {
         board res;
-        for (int i = 0; i < n_board_idx; ++i)
+        for (int i = 0; i < n_board_idx; ++i) {
             res.board_idx[i] = this->board_idx[i];
+        }
+
         move_p(&res, g_place, 0, infos);
         move_p(&res, g_place, 1, infos);
         move_p(&res, g_place, 2, infos);
-        if (place_included[g_place][3] != -1)
+        if (place_included[g_place][3] != -1) {
             move_p(&res, g_place, 3, infos);
-        for (int i = 0; i < 3; ++i)
-            res.board_idx[place_included[g_place][i]] = infos.pi.put_arr[this->player][res.board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
-        if (place_included[g_place][3] != -1)
-            res.board_idx[place_included[g_place][3]] = infos.pi.put_arr[this->player][res.board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+        }
+
+        for (int i = 0; i < 3; ++i) {
+            int idx = place_included[g_place][i];
+            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
+        }
+        int idx = place_included[g_place][3];
+        if (idx != -1) {
+            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
+        }
+
         res.player = 1 - this->player;
         res.n_stones = this->n_stones + 1;
         res.policy = g_place;
@@ -301,21 +314,27 @@ public:
 private:
     // 石をひっくり返す
     inline void do_flip(board *res, int g_place, Infos infos) {
-        for (int i = 0; i < 3; ++i)
-            res->board_idx[place_included[g_place][i]] = infos.fi.flip_arr[this->player][res->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
-        if (place_included[g_place][3] != -1)
-            res->board_idx[place_included[g_place][3]] = infos.fi.flip_arr[this->player][res->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+        for (int i = 0; i < 3; ++i) {
+            int idx = place_included[g_place][i];
+            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
+        }
+        int idx = place_included[g_place][3];
+        if (idx != -1) {
+            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
+        }
     }
 
     // 石をひっくり返す
     inline void move_p(board *res, int g_place, int i, Infos infos) {
-        int j, place;
-        place = local_place[place_included[g_place][i]][g_place];
-        for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][0]; ++j)
+        const int idx = place_included[g_place][i];
+        const int place = local_place[idx][g_place];
+        for (int j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[idx]][place][0]; ++j) {
             // printf("left: move_p");
-            do_flip(res, g_place - move_offset[place_included[g_place][i]] * j, infos);
-        for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
-            do_flip(res, g_place + move_offset[place_included[g_place][i]] * j, infos);
+            do_flip(res, g_place - move_offset[idx] * j, infos);
+        }
+        for (int j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[idx]][place][1]; ++j) {
+            do_flip(res, g_place + move_offset[idx] * j, infos);
+        }
     }
 };
 
