@@ -61,7 +61,6 @@ const int global_place[n_board_idx][hw] = {
 };
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
-int flip_arr[2][n_line][hw];        // flip_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置をひっくり返した後のインデックス
 int put_arr[2][n_line][hw];         // put_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置に着手した後のインデックス
 int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
 int place_included[hw2][4];         // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
@@ -106,11 +105,18 @@ struct MovementInfo {
 };
 MovementInfo make_movement();
 
+struct FlipInfo {
+    // flip_arr[プレイヤー][ボードのインデックス][マスの位置] = ボードのインデックスのマスの位置をひっくり返した後のインデックス
+    int flip_arr[2][n_line][hw];
+};
+FlipInfo make_flip_info();
+
 class Infos {
 public:
     LegalInfo li;
     MovementInfo mi;
     ArrStruct csi;
+    FlipInfo fi;
     Infos();
 };
 
@@ -288,11 +294,11 @@ public:
 
 private:
     // 石をひっくり返す
-    inline void flip(board *res, int g_place) {
+    inline void do_flip(board *res, int g_place, Infos infos) {
         for (int i = 0; i < 3; ++i)
-            res->board_idx[place_included[g_place][i]] = flip_arr[this->player][res->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
+            res->board_idx[place_included[g_place][i]] = infos.fi.flip_arr[this->player][res->board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
         if (place_included[g_place][3] != -1)
-            res->board_idx[place_included[g_place][3]] = flip_arr[this->player][res->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+            res->board_idx[place_included[g_place][3]] = infos.fi.flip_arr[this->player][res->board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
     }
 
     // 石をひっくり返す
@@ -301,9 +307,9 @@ private:
         place = local_place[place_included[g_place][i]][g_place];
         for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][0]; ++j)
             // printf("left: move_p");
-            flip(res, g_place - move_offset[place_included[g_place][i]] * j);
+            do_flip(res, g_place - move_offset[place_included[g_place][i]] * j, infos);
         for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
-            flip(res, g_place + move_offset[place_included[g_place][i]] * j);
+            do_flip(res, g_place + move_offset[place_included[g_place][i]] * j, infos);
     }
 };
 
