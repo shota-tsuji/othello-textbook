@@ -11,11 +11,12 @@ protected:
 };
 
 TEST_F(BoardTest, Initialization) {
+    Infos infos;
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
     int arr[64] = {0};
     board b;
-    b.translate_from_arr(arr, 0);
+    b.translate_from_arr_1(arr, 0, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -34,7 +35,7 @@ TEST_F(BoardTest, Initialization2) {
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
 
     board b;
-    b.translate_from_arr(TestBoard::all_black(), Black);
+    b.translate_from_arr(TestBoard::all_black(), Black, Infos());
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -52,7 +53,7 @@ TEST_F(BoardTest, Initialization2) {
 TEST_F(BoardTest, LegalJudgeAllBlack) {
     Infos infos;
     board b;
-    b.translate_from_arr(TestBoard::all_black(), Black);
+    b.translate_from_arr(TestBoard::all_black(), Black, Infos());
 
     EXPECT_FALSE(b.is_legal(A1, infos));
 }
@@ -61,7 +62,7 @@ TEST_F(BoardTest, LegalJudgeAllBlack) {
 TEST_F(BoardTest, LegalJudge) {
     Infos infos;
     board b;
-    b.translate_from_arr(TestBoard::d3c5(), Black);
+    b.translate_from_arr(TestBoard::d3c5(), Black, Infos());
     b.print();
 
     EXPECT_FALSE(b.is_legal(A1, infos));
@@ -71,11 +72,11 @@ TEST_F(BoardTest, LegalJudge) {
 TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     // d3c5e6
     board expected;
-    expected.translate_from_arr(TestBoard::d3c5e6(), White);
+    expected.translate_from_arr(TestBoard::d3c5e6(), White, Infos());
 
     // d3c5
     board previous_board;
-    previous_board.translate_from_arr(TestBoard::d3c5(), Black);
+    previous_board.translate_from_arr(TestBoard::d3c5(), Black, Infos());
     board next = previous_board.move(E6);
 
     bool same = true;
@@ -93,10 +94,10 @@ TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 
 TEST_F(BoardTest, MoveFromBeginning) {
     board expected;
-    expected.translate_from_arr(TestBoard::d3(), White);
+    expected.translate_from_arr(TestBoard::d3(), White, Infos());
 
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
+    b0.translate_from_arr(TestBoard::beginning(), Black, Infos());
     board next = b0.move(D3);
 
     bool same = true;
@@ -116,28 +117,28 @@ TEST_F(BoardTest, HashedValue) {
     board::hash hashFunc;
 
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
+    b0.translate_from_arr(TestBoard::beginning(), Black, Infos());
 
     EXPECT_EQ(18446744073305302956, hashFunc(b0));
 
     board b1;
-    b1.translate_from_arr(TestBoard::d3c5(), Black);
+    b1.translate_from_arr(TestBoard::d3c5(), Black, Infos());
     EXPECT_EQ(18446744073291327783, hashFunc(b1));
 
     board b2;
-    b2.translate_from_arr(TestBoard::d3c5e6(), Black);
+    b2.translate_from_arr(TestBoard::d3c5e6(), Black, Infos());
     EXPECT_EQ(18446744073212400438, hashFunc(b2));
 }
 
 TEST_F(BoardTest, Equality) {
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
+    b0.translate_from_arr(TestBoard::beginning(), Black, Infos());
     board b1;
-    b1.translate_from_arr(TestBoard::beginning(), White);
+    b1.translate_from_arr(TestBoard::beginning(), White, Infos());
     board b2;
-    b2.translate_from_arr(TestBoard::beginning(), Black);
+    b2.translate_from_arr(TestBoard::beginning(), Black, Infos());
     board b3;
-    b3.translate_from_arr(TestBoard::all_black(), Black);
+    b3.translate_from_arr(TestBoard::all_black(), Black, Infos());
 
     EXPECT_EQ(b0, b0);
     EXPECT_EQ(b0, b2);

@@ -194,7 +194,7 @@ int main() {
     Infos infos;
     while (true) {
         input_board(arr);
-        b.translate_from_arr(arr, ai_player);
+        b.translate_from_arr_1(arr, ai_player, infos);
         cerr << evaluate(b, a.cell_score) << endl;
         b.print();
         policy = search_1(b, 8, a.cell_score, infos);

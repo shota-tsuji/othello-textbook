@@ -62,7 +62,6 @@ const int global_place[n_board_idx][hw] = {
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
 int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
-int place_included[hw2][4];         // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
 
 // インデックスからボードの1行/列をビットボードで生成する
 int create_one_color(int idx, const int k);
@@ -274,14 +273,14 @@ public:
 
     // 一般的な配列形式からインデックス形式に変換
     // tests for 38 indexes, number of discs and player
-    inline void translate_from_arr(const int arr[], int player) {
+    inline void translate_from_arr_1(const int arr[], int player, Infos infos) {
         int i, j;
         for (i = 0; i < n_board_idx; ++i)
             this->board_idx[i] = n_line - 1; // init all values with vacant eight cells (6560)
         this->n_stones = hw2; // init with all discs (64)
         for (i = 0; i < hw2; ++i) { // loop each cell
             for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
-                const int index = place_included[i][j];
+                const int index = infos.ii.place_included[i][j];
                 const int cell = local_place[index][i];
                 if (index == -1)
                     continue;
@@ -296,14 +295,15 @@ public:
         this->player = player;
     }
 
-    inline void translate_from_arr(std::vector<int> arr, int player) {
+
+    inline void translate_from_arr(std::vector<int> arr, int player, Infos infos) {
         int i, j;
         for (i = 0; i < n_board_idx; ++i)
             this->board_idx[i] = n_line - 1; // init all values with vacant eight cells (6560)
         this->n_stones = hw2; // init with all discs (64)
         for (i = 0; i < hw2; ++i) { // loop each cell
             for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
-                const int index = place_included[i][j];
+                const int index = infos.ii.place_included[i][j];
                 const int cell = local_place[index][i];
                 if (index == -1)
                     continue;
