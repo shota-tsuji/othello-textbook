@@ -9,7 +9,7 @@ protected:
     void SetUp() override {
         // Common setup code that runs before each test case
         board_init();
-        evaluate_init();
+        //evaluate_init();
     }
 };
 
@@ -26,7 +26,8 @@ TEST_F(NegascoutTest, move_ordering) {
     black_d3c5.translate_from_arr(TestBoard::d3c5e6(), Black);
     black_d3c5.print();
 
-    EXPECT_EQ(3, calc_move_ordering_value(black_d3c5));
+    //EXPECT_EQ(3, calc_move_ordering_value(black_d3c5));
+    EXPECT_EQ(3, calc_move_ordering_value(black_d3c5, make_score().cell_score));
 }
 
 TEST_F(NegascoutTest, move_ordering_upper_bonus) {
@@ -37,7 +38,8 @@ TEST_F(NegascoutTest, move_ordering_upper_bonus) {
     former_transpose_table_lower[b] = point - 1;
     former_transpose_table_upper[b] = point;
 
-    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+    //EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b, make_score().cell_score));
 }
 
 TEST_F(NegascoutTest, move_ordering_lower_bonus) {
@@ -46,12 +48,14 @@ TEST_F(NegascoutTest, move_ordering_lower_bonus) {
     b.translate_from_arr(TestBoard::d3c5e6(), Black);
     former_transpose_table_lower[b] = point;
 
-    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+    //EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
+    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b, make_score().cell_score));
 }
 
 TEST_F(NegascoutTest, nega_alpha_depth0) {
+    ArrStruct a = make_score();
     board b;
     b.translate_from_arr(TestBoard::d3c5e6(), Black);
 
-    EXPECT_EQ(-3, nega_alpha_transpose(b, 0, false, -1, -1));
+    EXPECT_EQ(-3, nega_alpha_transpose(b, 0, false, -1, -1, a.cell_score));
 }

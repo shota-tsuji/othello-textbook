@@ -12,10 +12,10 @@ using namespace std;
 #define cache_hit_bonus 1000        // 前回の探索で枝刈りされなかったノードへのボーナス
 
 // 初期化
-inline void init() {
-    board_init();
-    evaluate_init();
-}
+//inline void init() {
+//    board_init();
+//    evaluate_init();
+//}
 
 // 標準入力からボードの状態を配列に受け取る
 inline void input_board(int arr[]) {
@@ -61,7 +61,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta, int cell_sc
     for (coord = 0; coord < hw2; ++coord) {
         if (b.legal(coord)) {
             child_nodes.push_back(b.move(coord));
-            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput]);
+            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
             ++canput;
         }
     }
@@ -94,7 +94,7 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta, int cell_sc
     // 残りの手をnull window searchを使って高速に探索
     for (int i = 1; i < canput; ++i) {
         // まずはnull window search
-        g = -nega_alpha_transpose(child_nodes[i], depth - 1, false, -alpha - 1, -alpha);
+        g = -nega_alpha_transpose(child_nodes[i], depth - 1, false, -alpha - 1, -alpha, cell_score);
         if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
             if (g > l) {
                 // 置換表の下限値に登録
@@ -152,7 +152,7 @@ int search(board b, int depth, int cell_score[hw / 2][n_line]) {
         if (canput >= 2) {
             // move orderingのための値を得る
             for (board &nb: child_nodes)
-                nb.value = calc_move_ordering_value(nb);
+                nb.value = calc_move_ordering_value(nb, cell_score);
             // move ordering実行
             sort(child_nodes.begin(), child_nodes.end());
         }
@@ -164,7 +164,7 @@ int search(board b, int depth, int cell_score[hw / 2][n_line]) {
 
         // 残りの手をnull window searchで探索
         for (i = 1; i < canput; ++i) {
-            score = -nega_alpha_transpose(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha);
+            score = -nega_alpha_transpose(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score);
             // 最善手候補よりも良い手が見つかった
             if (alpha < score) {
                 alpha = score;
@@ -183,7 +183,9 @@ int search(board b, int depth, int cell_score[hw / 2][n_line]) {
 }
 
 int main() {
-    init();
+    //init();
+    board_init();
+    //evaluate_init();
     ArrStruct a = make_score();
     int arr[64];
     board b;

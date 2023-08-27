@@ -4,8 +4,12 @@ project(Othello_textbook CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set(CMAKE_CXX_FLAGS "--coverage")
-set(CMAKE_CXX_FLAGS "-fprofile-instr-generate -fcoverage-mapping")
 # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+# set(CMAKE_CXX_COMPILER /usr/bin/g++)
+# set(CMAKE_CXX_FLAGS "--coverage -fprofile-instr-generate -fcoverage-mapping")
+file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
+set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(MY_BINARY_NAME "UnitTestExecutor")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -39,21 +43,36 @@ add_executable(othello
         book.hpp
         cell_evaluation.hpp
         endgame_evaluation.hpp
+        board.cpp
         # pattern_mobility_surround_evaluation.hpp
         )
 
 enable_testing()
 
-add_executable(board_test tests/board_test.cc)
-target_link_libraries(board_test GTest::gtest_main)
+add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS})
+target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
-add_executable(evaluation_test tests/evaluation_test.cpp)
-target_link_libraries(evaluation_test GTest::gtest_main)
-
-add_executable(negascout_test tests/negascout_test.cpp)
-target_link_libraries(negascout_test GTest::gtest_main)
+#add_executable(board_test tests/board_test.cc)
+#target_link_libraries(board_test GTest::gtest_main)
+#
+#add_executable(evaluation_test tests/evaluation_test.cpp)
+#target_link_libraries(evaluation_test GTest::gtest_main)
+#
+#add_executable(negascout_test tests/negascout_test.cpp)
+#target_link_libraries(negascout_test GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(board_test)
-gtest_discover_tests(evaluation_test)
-gtest_discover_tests(negascout_test)
+# gtest_discover_tests(board_test)
+# gtest_discover_tests(evaluation_test)
+# gtest_discover_tests(negascout_test)
+
+# add_custom_target(all_tests)
+# add_dependencies(all_tests board_test evaluation_test negascout_test)
+
+
+# ctest_coverage(build board_test)
+# ctest_coverage(evaluation_test)
+# ctest_coverage(negascout_test)
+
+# /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -sparse default.profraw -o build/coverage.profdata
+# /Library/Developer/CommandLineTools/usr/bin/llvm-cov show build/board_test -instr-profile=build/coverage.profdata -format=html -o coverage_html
