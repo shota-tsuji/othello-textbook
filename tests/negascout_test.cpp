@@ -54,7 +54,7 @@ TEST_F(NegascoutTest, move_ordering_lower_bonus) {
 
 TEST_F(NegascoutTest, nega_alpha_depth0) {
     ArrStruct a = make_score();
-    Infos infos();
+    Infos infos;
     board b;
     b.translate_from_arr(TestBoard::d3c5e6(), Black, Infos());
 

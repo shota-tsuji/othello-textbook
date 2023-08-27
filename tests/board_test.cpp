@@ -70,6 +70,7 @@ TEST_F(BoardTest, LegalJudge) {
 }
 
 TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
+    Infos infos;
     // d3c5e6
     board expected;
     expected.translate_from_arr(TestBoard::d3c5e6(), White, Infos());
@@ -77,7 +78,7 @@ TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
     // d3c5
     board previous_board;
     previous_board.translate_from_arr(TestBoard::d3c5(), Black, Infos());
-    board next = previous_board.move(E6);
+    board next = previous_board.move(E6, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -93,12 +94,13 @@ TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 }
 
 TEST_F(BoardTest, MoveFromBeginning) {
+    Infos infos;
     board expected;
     expected.translate_from_arr(TestBoard::d3(), White, Infos());
 
     board b0;
     b0.translate_from_arr(TestBoard::beginning(), Black, Infos());
-    board next = b0.move(D3);
+    board next = b0.move(D3, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {

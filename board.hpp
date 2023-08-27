@@ -61,8 +61,6 @@ const int global_place[n_board_idx][hw] = {
 };
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
 
-int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
-
 // インデックスからボードの1行/列をビットボードで生成する
 int create_one_color(int idx, const int k);
 
@@ -121,6 +119,12 @@ struct IncludedInfo {
 };
 IncludedInfo make_included_info();
 
+struct LocalInfo {
+    // local_place[インデックス番号][マスの位置] = そのインデックス番号におけるマスのローカルな位置
+    int local_place[n_board_idx][hw2];
+};
+LocalInfo make_local_info();
+
 class Infos {
 public:
     LegalInfo li;
@@ -129,6 +133,7 @@ public:
     FlipInfo fi;
     PutInfo pi;
     IncludedInfo ii;
+    LocalInfo local_info;
     Infos();
 };
 
@@ -213,11 +218,11 @@ public:
         bool res = false;
         for (int i = 0; i < 3; ++i) {
             int idx = infos.ii.place_included[g_place][i];
-            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
+            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
         int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
-            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][local_place[idx][g_place]];
+            res |= infos.li.legal_arr[this->player][this->board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
         return res;
     }
@@ -258,11 +263,11 @@ public:
 
         for (int i = 0; i < 3; ++i) {
             int idx = infos.ii.place_included[g_place][i];
-            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
+            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
         int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
-            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][local_place[idx][g_place]];
+            res.board_idx[idx] = infos.pi.put_arr[this->player][res.board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
 
         res.player = 1 - this->player;
@@ -281,7 +286,7 @@ public:
         for (i = 0; i < hw2; ++i) { // loop each cell
             for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
                 const int index = infos.ii.place_included[i][j];
-                const int cell = local_place[index][i];
+                const int cell = infos.local_info.local_place[index][i];
                 if (index == -1)
                     continue;
                 if (arr[i] == Black)
@@ -304,7 +309,7 @@ public:
         for (i = 0; i < hw2; ++i) { // loop each cell
             for (j = 0; j < 4; ++j) { // loop each index (0<=pattern<4)
                 const int index = infos.ii.place_included[i][j];
-                const int cell = local_place[index][i];
+                const int cell = infos.local_info.local_place[index][i];
                 if (index == -1)
                     continue;
                 if (arr[i] == Black)
@@ -323,18 +328,18 @@ private:
     inline void do_flip(board *res, int g_place, Infos infos) {
         for (int i = 0; i < 3; ++i) {
             int idx = infos.ii.place_included[g_place][i];
-            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
+            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
         int idx = infos.ii.place_included[g_place][3];
         if (idx != -1) {
-            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][local_place[idx][g_place]];
+            res->board_idx[idx] = infos.fi.flip_arr[this->player][res->board_idx[idx]][infos.local_info.local_place[idx][g_place]];
         }
     }
 
     // 石をひっくり返す
     inline void move_p(board *res, int g_place, int i, Infos infos) {
         const int idx = infos.ii.place_included[g_place][i];
-        const int place = local_place[idx][g_place];
+        const int place = infos.local_info.local_place[idx][g_place];
         for (int j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[idx]][place][0]; ++j) {
             // printf("left: move_p");
             do_flip(res, g_place - move_offset[idx] * j, infos);

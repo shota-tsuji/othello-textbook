@@ -74,6 +74,22 @@ PutInfo make_put_info() {
     return pi;
 }
 
+LocalInfo make_local_info() {
+    LocalInfo local_info;
+
+    for (int idx = 0; idx < n_board_idx; ++idx) {
+        for (int place = 0; place < hw2; ++place) {
+            local_info.local_place[idx][place] = -1;
+            for (int l_place = 0; l_place < hw; ++l_place) {
+                if (global_place[idx][l_place] == place)
+                    local_info.local_place[idx][place] = l_place;
+            }
+        }
+    }
+
+    return local_info;
+}
+
 Infos::Infos() {
     mi = make_movement();
     li = make_legal_arr(mi.move_arr);
@@ -81,6 +97,7 @@ Infos::Infos() {
     fi = make_flip_info();
     pi = make_put_info();
     ii = make_included_info();
+    local_info = make_local_info();
 }
 
 int create_one_color(int idx, const int k) {
@@ -115,15 +132,6 @@ IncludedInfo make_included_info() {
 void board_init() {
 
 
-    for (int idx = 0; idx < n_board_idx; ++idx) {
-        for (int place = 0; place < hw2; ++place) {
-            local_place[idx][place] = -1;
-            for (int l_place = 0; l_place < hw; ++l_place) {
-                if (global_place[idx][l_place] == place)
-                    local_place[idx][place] = l_place;
-            }
-        }
-    }
     cerr << "board initialized" << endl;
 }
 int evaluate(board b, int cell_score[hw / 2][n_line]) {
