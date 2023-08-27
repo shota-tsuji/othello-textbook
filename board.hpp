@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include "cell_evaluation.hpp"
 
 using namespace std;
 
@@ -102,6 +103,24 @@ inline int move_line_half(const int p, const int o, const int place, const int k
     }
     return 0; // If just opponent stones exist with vacant and self stones does not exist between them
 }
+
+struct LegalInfo {
+    bool legal_arr[2][n_line][hw];
+};
+LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]);
+
+struct MovementInfo {
+    int move_arr[2][n_line][hw][2];
+};
+MovementInfo make_movement();
+
+class Infos {
+public:
+    LegalInfo li;
+    MovementInfo mi;
+    ArrStruct csi;
+    Infos();
+};
 
 void board_init();
 
@@ -208,6 +227,24 @@ public:
         res.policy = g_place;
         return res;
     }
+    inline board move(const int g_place, Infos infos) {
+        board res;
+        for (int i = 0; i < n_board_idx; ++i)
+            res.board_idx[i] = this->board_idx[i];
+        move_p(&res, g_place, 0, infos);
+        move_p(&res, g_place, 1, infos);
+        move_p(&res, g_place, 2, infos);
+        if (place_included[g_place][3] != -1)
+            move_p(&res, g_place, 3, infos);
+        for (int i = 0; i < 3; ++i)
+            res.board_idx[place_included[g_place][i]] = put_arr[this->player][res.board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
+        if (place_included[g_place][3] != -1)
+            res.board_idx[place_included[g_place][3]] = put_arr[this->player][res.board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
+        res.player = 1 - this->player;
+        res.n_stones = this->n_stones + 1;
+        res.policy = g_place;
+        return res;
+    }
 
     // 一般的な配列形式からインデックス形式に変換
     // tests for 38 indexes, number of discs and player
@@ -272,6 +309,16 @@ private:
             // printf("left: move_p");
             flip(res, g_place - move_offset[place_included[g_place][i]] * j);
         for (j = 1; j <= move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
+            flip(res, g_place + move_offset[place_included[g_place][i]] * j);
+    }
+
+    inline void move_p(board *res, int g_place, int i, Infos infos) {
+        int j, place;
+        place = local_place[place_included[g_place][i]][g_place];
+        for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][0]; ++j)
+            // printf("left: move_p");
+            flip(res, g_place - move_offset[place_included[g_place][i]] * j);
+        for (j = 1; j <= infos.mi.move_arr[this->player][this->board_idx[place_included[g_place][i]]][place][1]; ++j)
             flip(res, g_place + move_offset[place_included[g_place][i]] * j);
     }
 };

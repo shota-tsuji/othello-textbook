@@ -176,4 +176,74 @@ int nega_alpha_transpose(board b, int depth, bool passed, int alpha, int beta, i
     }
     return max_score;
 }
+int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta, int cell_score[hw / 2][n_line], Infos infos) {
+    ++visited_nodes;
+
+    // 葉ノードでは評価関数を実行する
+    if (depth == 0)
+        return evaluate(b, cell_score);
+
+    // 置換表から上限値と下限値があれば取得
+    int u = inf, l = -inf;
+    if (transpose_table_upper.find(b) != transpose_table_upper.end())
+        u = transpose_table_upper[b];
+    if (transpose_table_lower.find(b) != transpose_table_lower.end())
+        l = transpose_table_lower[b];
+
+    // u==l、つまりもうminimax値が求まっていれば探索終了
+    if (u == l)
+        return u;
+
+    // 置換表の値を使って探索窓を狭められる場合は狭める
+    alpha = max(alpha, l);
+    beta = min(beta, u);
+
+    // 葉ノードでなければ子ノードを列挙
+    int coord, g, max_score = -inf, canput = 0;
+    vector<board> child_nodes;
+    for (coord = 0; coord < hw2; ++coord) {
+        if (b.legal(coord)) {
+            child_nodes.push_back(b.move(coord, infos));
+            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
+            ++canput;
+        }
+    }
+
+    // パスの処理 手番を交代して同じ深さで再帰する
+    if (canput == 0) {
+        // 2回連続パスなら評価関数を実行
+        if (passed)
+            return evaluate(b, cell_score);
+        b.player = 1 - b.player;
+        return -nega_alpha_transpose_1(b, depth, true, -beta, -alpha, cell_score, infos);
+    }
+
+    // move ordering実行
+    if (canput >= 2)
+        sort(child_nodes.begin(), child_nodes.end());
+
+    // 探索
+    for (const board& nb: child_nodes) {
+        g = -nega_alpha_transpose_1(nb, depth - 1, false, -beta, -alpha, cell_score, infos);
+        if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
+            if (g > l) {
+                // 置換表の下限値に登録
+                transpose_table_lower[b] = g;
+            }
+            return g;
+        }
+        alpha = max(alpha, g);
+        max_score = max(max_score, g);
+    }
+
+    if (max_score < alpha) {
+        // 置換表の下限値に登録 fail low
+        transpose_table_upper[b] = max_score;
+    } else {
+        // minimax値が求まった
+        transpose_table_upper[b] = max_score;
+        transpose_table_lower[b] = max_score;
+    }
+    return max_score;
+}
 #endif //OTHELLO_TEXTBOOK_SEARCH_H

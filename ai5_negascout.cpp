@@ -126,9 +126,102 @@ int nega_scout(board b, int depth, bool passed, int alpha, int beta, int cell_sc
     }
     return max_score;
 }
+int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_score[hw / 2][n_line], Infos infos) {
+    ++visited_nodes;
+
+    // 葉ノードでは評価関数を実行する
+    if (depth == 0)
+        return evaluate(b, cell_score);
+
+    // 置換表から上限値と下限値があれば取得
+    int u = inf, l = -inf;
+    if (transpose_table_upper.find(b) != transpose_table_upper.end())
+        u = transpose_table_upper[b];
+    if (transpose_table_lower.find(b) != transpose_table_lower.end())
+        l = transpose_table_lower[b];
+
+    // u==l、つまりもうminimax値が求まっていれば探索終了
+    if (u == l)
+        return u;
+
+    // 置換表の値を使って探索窓を狭められる場合は狭める
+    alpha = max(alpha, l);
+    beta = min(beta, u);
+
+    // 葉ノードでなければ子ノードを列挙
+    int coord, g, max_score = -inf, canput = 0;
+    vector<board> child_nodes;
+    for (coord = 0; coord < hw2; ++coord) {
+        if (b.legal(coord)) {
+            child_nodes.push_back(b.move(coord));
+            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
+            ++canput;
+        }
+    }
+
+    // パスの処理 手番を交代して同じ深さで再帰する
+    if (canput == 0) {
+        // 2回連続パスなら評価関数を実行
+        if (passed)
+            return evaluate(b, cell_score);
+        b.player = 1 - b.player;
+        return -nega_scout(b, depth, true, -beta, -alpha, cell_score);
+    }
+
+    // move ordering実行
+    if (canput >= 2)
+        sort(child_nodes.begin(), child_nodes.end());
+
+    // まず最善手候補を通常窓で探索
+    g = -nega_scout(child_nodes[0], depth - 1, false, -beta, -alpha, cell_score);
+    if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
+        if (g > l) {
+            // 置換表の下限値に登録
+            transpose_table_lower[b] = g;
+        }
+        return g;
+    }
+    alpha = max(alpha, g);
+    max_score = max(max_score, g);
+
+    // 残りの手をnull window searchを使って高速に探索
+    for (int i = 1; i < canput; ++i) {
+        // まずはnull window search
+        g = -nega_alpha_transpose_1(child_nodes[i], depth - 1, false, -alpha - 1, -alpha, cell_score, infos);
+        if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
+            if (g > l) {
+                // 置換表の下限値に登録
+                transpose_table_lower[b] = g;
+            }
+            return g;
+        }
+        if (g > alpha) { // 最善手候補よりも良い手が見つかった場合は再探索
+            alpha = g;
+            g = -nega_scout(child_nodes[i], depth - 1, false, -beta, -alpha, cell_score);
+            if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
+                if (g > l) {
+                    // 置換表の下限値に登録
+                    transpose_table_lower[b] = g;
+                }
+                return g;
+            }
+        }
+        alpha = max(alpha, g);
+        max_score = max(max_score, g);
+    }
+    if (max_score < alpha) { // fail-low ?
+        // 置換表の下限値に登録 fail low
+        transpose_table_upper[b] = max_score;
+    } else {
+        // minimax値が求まった
+        transpose_table_upper[b] = max_score;
+        transpose_table_lower[b] = max_score;
+    }
+    return max_score;
+}
 
 // depth手読みの探索
-int search(board b, int depth, int cell_score[hw / 2][n_line]) {
+int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
     visited_nodes = 0;
     transpose_table_upper.clear();
     transpose_table_lower.clear();
@@ -164,7 +257,7 @@ int search(board b, int depth, int cell_score[hw / 2][n_line]) {
 
         // 残りの手をnull window searchで探索
         for (i = 1; i < canput; ++i) {
-            score = -nega_alpha_transpose(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score);
+            score = -nega_alpha_transpose_1(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score, infos);
             // 最善手候補よりも良い手が見つかった
             if (alpha < score) {
                 alpha = score;
@@ -191,12 +284,13 @@ int main() {
     board b;
     int ai_player, policy;
     cin >> ai_player;
+    Infos infos();
     while (true) {
         input_board(arr);
         b.translate_from_arr(arr, ai_player);
         cerr << evaluate(b, a.cell_score) << endl;
         b.print();
-        policy = search(b, 8, a.cell_score);
+        policy = search_1(b, 8, a.cell_score, infos);
         cout << policy / hw << " " << policy % hw << endl;
     }
     return 0;
