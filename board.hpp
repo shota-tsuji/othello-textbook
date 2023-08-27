@@ -65,8 +65,6 @@ int local_place[n_board_idx][hw2];  // local_place[インデックス番号][マ
 int place_included[hw2][4];         // place_included[マスの位置] = そのマスが関わるインデックス番号の配列(3つのインデックスにしか関わらない場合は最後の要素に-1が入る)
 //int reverse_board[n_line];          // reverse_board[ボードのインデックス] = そのインデックスにおけるボードの前後反転
 const int pow3_1[11] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049};
-int pop_digit[n_line][hw];          // pop_digit[ボードのインデックス][i] = そのインデックスの左からi番目の値(3進数なので0か1か2)
-//int pop_mid[n_line][hw][hw];        // pop_mid[ボードのインデックス][i][j] = そのインデックスの左からi番目、左からj番目に挟まれる場所の値
 
 // インデックスからボードの1行/列をビットボードで生成する
 inline int create_one_color(int idx, const int k) {
@@ -209,15 +207,6 @@ public:
         res.n_stones = this->n_stones + 1;
         res.policy = g_place;
         return res;
-    }
-
-    // インデックス形式から一般的な配列形式に変換
-    inline void translate_to_arr(int res[]) {
-        int i, j;
-        for (i = 0; i < hw; ++i) {
-            for (j = 0; j < hw; ++j)
-                res[i * hw + j] = pop_digit[this->board_idx[i]][j];
-        }
     }
 
     // 一般的な配列形式からインデックス形式に変換

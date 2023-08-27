@@ -2,31 +2,9 @@
 
 void board_init() {
     int idx, b, w, place, i, j, k, l_place, inc_idx;
-    //pow3[0] = 1;
-    //for (idx = 1; idx < 11; ++idx)
-    //    pow3[idx] = pow3[idx - 1] * 3;
-    for (i = 0; i < n_line; ++i) {
-        for (j = 0; j < hw; ++j)
-            pop_digit[i][j] = (i / pow3_1[hw - 1 - j]) % 3;
-    }
-    //for (i = 0; i < n_line; ++i) {
-    //    for (j = 0; j < hw; ++j) {
-    //        for (k = 0; k < hw; ++k)
-    //            pop_mid[i][j][k] = (i - i / pow3[j] * pow3[j]) / pow3[k];
-    //    }
-    //}
     for (idx = 0; idx < n_line; ++idx) {
         b = create_one_color(idx, 0);
         w = create_one_color(idx, 1);
-        //for (place = 0; place < hw; ++place) {
-        //    reverse_board[idx] *= 3;
-        //    if (1 & (b >> place))
-        //        reverse_board[idx] += 0;
-        //    else if (1 & (w >> place))
-        //        reverse_board[idx] += 1;
-        //    else
-        //        reverse_board[idx] += 2;
-        //}
         for (place = 0; place < hw; ++place) {
             move_arr[Black][idx][place][0] = move_line_half(b, w, place, 0);
             move_arr[Black][idx][place][1] = move_line_half(b, w, place, 1);
