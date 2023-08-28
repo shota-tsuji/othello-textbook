@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include "src/lib/board.hpp"
-#include "cell_evaluation.hpp"
+#include "src/lib/cell_evaluation.hpp"
 #include "search.h"
 
 using namespace std;

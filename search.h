@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "src/lib/board.hpp"
-#include "cell_evaluation.hpp"
+#include "src/lib/cell_evaluation.hpp"
 
 const int inf = 100000000;   // 大きな値
 const int cache_hit_bonus = 1000;   // 前回の探索で枝刈りされなかったノードへのボーナス

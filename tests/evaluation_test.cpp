@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "src/lib/board.hpp"
-#include "cell_evaluation.hpp"
+#include "src/lib/cell_evaluation.hpp"
 #include "utility.hpp"
 
 class EvaluationTest : public ::testing::Test {

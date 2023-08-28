@@ -42,16 +42,16 @@ add_executable(othello
         # ai8_endgame_search.cpp
         src/lib/board.hpp
         book.hpp
-        cell_evaluation.hpp
+        src/lib/cell_evaluation.hpp
         endgame_evaluation.hpp
         src/lib/board.cpp
-        cell_evaluation.cpp
+        src/lib/cell_evaluation.cpp
         # pattern_mobility_surround_evaluation.hpp
         )
 
 enable_testing()
 
-add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY} cell_evaluation.cpp)
+add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY})
 target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
 #add_executable(board_test tests/board_test.cc)
