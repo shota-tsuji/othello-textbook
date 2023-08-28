@@ -10,3 +10,4 @@ cmake-build-debug
 Testing
 coverage_html
 report
+coverage.info
