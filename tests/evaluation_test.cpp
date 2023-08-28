@@ -2,6 +2,7 @@
 #include "include/board.hpp"
 #include "include/cell_evaluation.hpp"
 #include "utility.hpp"
+#include "include/const.hpp"
 
 class EvaluationTest : public ::testing::Test {
 protected:

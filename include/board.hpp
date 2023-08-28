@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "const.hpp"
 #include "cell_evaluation.hpp"
 
 using namespace std;
@@ -11,9 +12,6 @@ using namespace std;
 #define hw2 64          // ボードのマス数
 #define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
 #define n_line 6561     // ボードの1つのインデックスが取りうる値の種類。3^8
-const int Black = 0;         // 黒の番号
-const int White = 1;         // 白の番号
-const int Vacant = 2;        // 空の番号
 
 // インデックスごとのマスの移動数. row, column, left upper, left lower
 const int move_offset[n_board_idx] = {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,

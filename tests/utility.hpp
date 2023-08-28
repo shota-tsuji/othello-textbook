@@ -1,4 +1,5 @@
 #include "include/board.hpp"
+#include "include/const.hpp"
 
 class TestBoard {
 public:

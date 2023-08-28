@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include "const.hpp"
 #include "cell_evaluation.hpp"
 
 LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]) {

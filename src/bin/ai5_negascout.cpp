@@ -5,6 +5,7 @@
 #include "include/board.hpp"
 #include "include/cell_evaluation.hpp"
 #include "include/search.hpp"
+#include "include/const.hpp"
 
 using namespace std;
 

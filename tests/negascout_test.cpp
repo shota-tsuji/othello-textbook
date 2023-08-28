@@ -2,6 +2,7 @@
 #include "include/board.hpp"
 #include "utility.hpp"
 #include "include/search.hpp"
+#include "include/const.hpp"
 
 
 class NegascoutTest : public ::testing::Test {
