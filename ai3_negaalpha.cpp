@@ -1,6 +1,6 @@
-#include <iostream>
-#include "src/lib/board.hpp"
-#include "src/lib/cell_evaluation.hpp"
+#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iostream"
+#include "include/board.hpp"
+#include "include/cell_evaluation.hpp"
 
 using namespace std;
 

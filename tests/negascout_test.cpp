@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "src/lib/board.hpp"
+#include "include/board.hpp"
 #include "utility.hpp"
-#include "src/lib/search.hpp"
+#include "include/search.hpp"
 
 
 class NegascoutTest : public ::testing::Test {

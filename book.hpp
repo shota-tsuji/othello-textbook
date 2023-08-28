@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
-#include "src/lib/board.hpp"
+#include "include/board.hpp"
 
 using namespace std;
 

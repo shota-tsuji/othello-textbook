@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "src/lib/board.hpp"
+#include "include/board.hpp"
 #include "pattern_mobility_surround_evaluation.hpp"
 #include "book.hpp"
 #include "endgame_evaluation.hpp"

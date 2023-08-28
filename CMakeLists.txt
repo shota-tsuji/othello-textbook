@@ -8,7 +8,7 @@ set(CMAKE_EXE_LINKER_FLAGS "--coverage")
 # set(CMAKE_CXX_COMPILER /usr/bin/g++)
 # set(CMAKE_CXX_FLAGS "--coverage -fprofile-instr-generate -fcoverage-mapping")
 file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
-file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*)
+file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
 set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 set(MY_BINARY_NAME "unit-tests")
 
@@ -36,16 +36,16 @@ add_executable(othello
         # ai2_negamax.cpp
         # ai3_negaalpha.cpp
         # ai4_negaalpha_fast.cpp
-        ai5_negascout.cpp
+        src/bin/ai5_negascout.cpp
         # ai6_pattern_evaluation.cpp
         # ai7_book.cpp
         # ai8_endgame_search.cpp
-        src/lib/board.hpp
+        include/board.hpp
         book.hpp
-        src/lib/cell_evaluation.hpp
+        include/cell_evaluation.hpp
         endgame_evaluation.hpp
-        src/lib/board.cpp
-        src/lib/cell_evaluation.cpp
+        include/board.cpp
+        include/cell_evaluation.cpp
         # pattern_mobility_surround_evaluation.hpp
         )
 

@@ -2,9 +2,9 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "src/lib/board.hpp"
-#include "src/lib/cell_evaluation.hpp"
-#include "src/lib/search.hpp"
+#include "include/board.hpp"
+#include "include/cell_evaluation.hpp"
+#include "include/search.hpp"
 
 using namespace std;
 
