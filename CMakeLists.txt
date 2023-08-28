@@ -5,12 +5,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "--coverage")
 set(CMAKE_EXE_LINKER_FLAGS "--coverage")
-# set(CMAKE_CXX_COMPILER /usr/bin/g++)
-# set(CMAKE_CXX_FLAGS "--coverage -fprofile-instr-generate -fcoverage-mapping")
 file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
 file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
-set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-set(MY_BINARY_NAME "unit-tests")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -23,10 +19,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 include_directories(.)
-include_directories(
-        evaluation
-        tests
-)
+include_directories(evaluation tests include)
 
 add_executable(othello
         # evaluation/board.hpp
@@ -41,6 +34,8 @@ add_executable(othello
 
 enable_testing()
 
+set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(MY_BINARY_NAME "unit-tests")
 add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY})
 target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
