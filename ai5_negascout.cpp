@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "src/lib/board.hpp"
 #include "src/lib/cell_evaluation.hpp"
-#include "search.h"
+#include "src/lib/search.h"
 
 using namespace std;
 

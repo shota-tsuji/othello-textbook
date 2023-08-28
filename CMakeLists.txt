@@ -8,7 +8,7 @@ set(CMAKE_EXE_LINKER_FLAGS "--coverage")
 # set(CMAKE_CXX_COMPILER /usr/bin/g++)
 # set(CMAKE_CXX_FLAGS "--coverage -fprofile-instr-generate -fcoverage-mapping")
 file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
-file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*.cpp)
+file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*)
 set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 set(MY_BINARY_NAME "unit-tests")
 
