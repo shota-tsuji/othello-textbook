@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 #include "utility.hpp"
 
 class BoardTest : public ::testing::Test {

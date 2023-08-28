@@ -1,5 +1,5 @@
 #include <iostream>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 #include "cell_evaluation.hpp"
 
 using namespace std;

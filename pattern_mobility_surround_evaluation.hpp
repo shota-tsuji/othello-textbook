@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 
 using namespace std;
 

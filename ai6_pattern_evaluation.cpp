@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 #include "pattern_mobility_surround_evaluation.hpp"
 
 using namespace std;

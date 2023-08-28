@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 #include "cell_evaluation.hpp"
 
 const int inf = 100000000;   // 大きな値

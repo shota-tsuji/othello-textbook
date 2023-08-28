@@ -1,4 +1,4 @@
-#include "board.hpp"
+#include "src/lib/board.hpp"
 
 class TestBoard {
 public:

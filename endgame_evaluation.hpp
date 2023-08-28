@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 
 using namespace std;
 

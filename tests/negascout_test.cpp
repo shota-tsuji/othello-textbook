@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "board.hpp"
+#include "src/lib/board.hpp"
 #include "utility.hpp"
 #include "search.h"
 

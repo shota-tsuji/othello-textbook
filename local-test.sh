@@ -3,7 +3,7 @@
 docker run -it --rm -v .:/app -v /app/build othello:latest sh -c \
   'cmake -S . -B build && \
   cmake --build build -v && \
-  ./build/UnitTestExecutor && \
-  lcov -d ./build/CMakeFiles/UnitTestExecutor.dir/ -c -o coverage.info && \
+  ./build/unit-tests && \
+  lcov -d ./build/CMakeFiles/unit-tests.dir/ -c -o coverage.info && \
   lcov -r coverage.info */googletest/* test/* */c++/* -o coverage.info && \
   genhtml -o report/html --num-spaces 4 -s --legend coverage.info'

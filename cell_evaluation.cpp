@@ -1,5 +1,5 @@
 #include "cell_evaluation.hpp"
-#include "board.hpp"
+#include "src/lib/board.hpp"
 
 ArrStruct make_score() {
     ArrStruct a;

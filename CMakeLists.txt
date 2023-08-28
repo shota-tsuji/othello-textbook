@@ -8,8 +8,9 @@ set(CMAKE_EXE_LINKER_FLAGS "--coverage")
 # set(CMAKE_CXX_COMPILER /usr/bin/g++)
 # set(CMAKE_CXX_FLAGS "--coverage -fprofile-instr-generate -fcoverage-mapping")
 file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
+file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*.cpp)
 set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-set(MY_BINARY_NAME "UnitTestExecutor")
+set(MY_BINARY_NAME "unit-tests")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -39,18 +40,18 @@ add_executable(othello
         # ai6_pattern_evaluation.cpp
         # ai7_book.cpp
         # ai8_endgame_search.cpp
-        board.hpp
+        src/lib/board.hpp
         book.hpp
         cell_evaluation.hpp
         endgame_evaluation.hpp
-        board.cpp
+        src/lib/board.cpp
         cell_evaluation.cpp
         # pattern_mobility_surround_evaluation.hpp
         )
 
 enable_testing()
 
-add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} board.cpp cell_evaluation.cpp)
+add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY} cell_evaluation.cpp)
 target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
 #add_executable(board_test tests/board_test.cc)
