@@ -1,5 +1,5 @@
-#ifndef OTHELLO_TEXTBOOK_SEARCH_H
-#define OTHELLO_TEXTBOOK_SEARCH_H
+#ifndef OTHELLO_TEXTBOOK_SEARCH_HPP
+#define OTHELLO_TEXTBOOK_SEARCH_HPP
 
 #include <iostream>
 #include <unordered_map>
@@ -177,4 +177,4 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
     }
     return max_score;
 }
-#endif //OTHELLO_TEXTBOOK_SEARCH_H
+#endif //OTHELLO_TEXTBOOK_SEARCH_HPP
