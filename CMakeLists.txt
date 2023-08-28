@@ -16,7 +16,7 @@ include(FetchContent)
 FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG        03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
+        GIT_TAG 03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -32,22 +32,12 @@ add_executable(othello
         # evaluation/board.hpp
         # evaluation/calc_additional_params.cpp
         # evaluation/mobility_surround_evaluation.hpp
-        # ai1_forward1.cpp
-        # ai2_negamax.cpp
-        # ai3_negaalpha.cpp
-        # ai4_negaalpha_fast.cpp
         src/bin/ai5_negascout.cpp
-        # ai6_pattern_evaluation.cpp
-        # ai7_book.cpp
-        # ai8_endgame_search.cpp
-        include/board.hpp
+        ${OTHELLO_LIBRARY}
         book.hpp
-        include/cell_evaluation.hpp
         endgame_evaluation.hpp
-        include/board.cpp
-        include/cell_evaluation.cpp
         # pattern_mobility_surround_evaluation.hpp
-        )
+)
 
 enable_testing()
 
