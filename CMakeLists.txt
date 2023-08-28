@@ -8,18 +8,7 @@ set(CMAKE_EXE_LINKER_FLAGS "--coverage")
 file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
 file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
 
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG 03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-include_directories(.)
-include_directories(evaluation tests include)
+include_directories(. evaluation tests include)
 
 add_executable(othello
         # evaluation/board.hpp
@@ -32,21 +21,21 @@ add_executable(othello
         # pattern_mobility_surround_evaluation.hpp
 )
 
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG 03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 set(MY_BINARY_NAME "unit-tests")
 add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY})
 target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
-
-#add_executable(board_test tests/board_test.cc)
-#target_link_libraries(board_test GTest::gtest_main)
-#
-#add_executable(evaluation_test tests/evaluation_test.cpp)
-#target_link_libraries(evaluation_test GTest::gtest_main)
-#
-#add_executable(negascout_test tests/negascout_test.cpp)
-#target_link_libraries(negascout_test GTest::gtest_main)
 
 include(GoogleTest)
 # gtest_discover_tests(board_test)
@@ -56,6 +45,3 @@ include(GoogleTest)
 # ctest_coverage(build board_test)
 # ctest_coverage(evaluation_test)
 # ctest_coverage(negascout_test)
-
-# /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -sparse default.profraw -o build/coverage.profdata
-# /Library/Developer/CommandLineTools/usr/bin/llvm-cov show build/board_test -instr-profile=build/coverage.profdata -format=html -o coverage_html
