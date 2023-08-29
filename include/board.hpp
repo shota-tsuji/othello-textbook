@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "const.hpp"
+#include "info.hpp"
 #include "cell_evaluation.hpp"
 
 using namespace std;
@@ -37,12 +38,6 @@ inline int move_line_half(const int p, const int o, const int place, const int k
     }
     return 0; // If just opponent stones exist with vacant and self stones does not exist between them
 }
-
-struct LegalInfo {
-    // legal_arr[プレイヤー][ボードのインデックス][マスの位置] = trueなら合法、falseなら非合法
-    bool legal_arr[2][n_line][hw];
-};
-LegalInfo make_legal_arr(int move_arr[2][n_line][hw][2]);
 
 struct MovementInfo {
     // move_arr[プレイヤー][ボードのインデックス][マスの位置][0: 左 1: 右] = 何マスひっくり返せるか
