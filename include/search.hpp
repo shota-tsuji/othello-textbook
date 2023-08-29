@@ -9,8 +9,8 @@
 #include "board.hpp"
 #include "cell_evaluation.hpp"
 
-const int inf = 100000000;   // 大きな値
-const int cache_hit_bonus = 1000;   // 前回の探索で枝刈りされなかったノードへのボーナス
+const int INF = 100000000;   // 大きな値
+const int CACHE_HIT_BONUS = 1000;   // 前回の探索で枝刈りされなかったノードへのボーナス
 unsigned long long visited_nodes; // 訪問ノード数
 
 using namespace std;
@@ -24,10 +24,10 @@ inline int calc_move_ordering_value(const board b, int cell_score[hw / 2][n_line
     int res;
     if (former_transpose_table_upper.find(b) != former_transpose_table_upper.end()) {
         // 前回の探索で上限値が格納されていた場合
-        res = cache_hit_bonus - former_transpose_table_upper[b];
+        res = CACHE_HIT_BONUS - former_transpose_table_upper[b];
     } else if (former_transpose_table_lower.find(b) != former_transpose_table_lower.end()) {
         // 前回の探索で下限値が格納されていた場合
-        res = cache_hit_bonus - former_transpose_table_lower[b];
+        res = CACHE_HIT_BONUS - former_transpose_table_lower[b];
     } else {
         // 前回の探索で枝刈りされた
         res = -evaluate(b, cell_score);
@@ -44,7 +44,7 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
         return evaluate(b, cell_score);
 
     // 置換表から上限値と下限値があれば取得
-    int u = inf, l = -inf;
+    int u = INF, l = -INF;
     if (transpose_table_upper.find(b) != transpose_table_upper.end())
         u = transpose_table_upper[b];
     if (transpose_table_lower.find(b) != transpose_table_lower.end())
@@ -59,7 +59,7 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
     beta = min(beta, u);
 
     // 葉ノードでなければ子ノードを列挙
-    int coord, g, max_score = -inf, canput = 0;
+    int coord, g, max_score = -INF, canput = 0;
     vector<board> child_nodes;
     for (coord = 0; coord < hw2; ++coord) {
         if (b.is_legal(coord, infos)) {

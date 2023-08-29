@@ -41,8 +41,8 @@ TEST_F(NegascoutTest, move_ordering_upper_bonus) {
     former_transpose_table_lower[b] = point - 1;
     former_transpose_table_upper[b] = point;
 
-    //EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
-    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b, make_score().cell_score));
+    //EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b));
+    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b, make_score().cell_score));
 }
 
 TEST_F(NegascoutTest, move_ordering_lower_bonus) {
@@ -52,8 +52,8 @@ TEST_F(NegascoutTest, move_ordering_lower_bonus) {
     b.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
     former_transpose_table_lower[b] = point;
 
-    //EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b));
-    EXPECT_EQ(cache_hit_bonus - point, calc_move_ordering_value(b, make_score().cell_score));
+    //EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b));
+    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b, make_score().cell_score));
 }
 
 TEST_F(NegascoutTest, nega_alpha_depth0) {

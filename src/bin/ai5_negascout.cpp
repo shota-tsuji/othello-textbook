@@ -9,8 +9,6 @@
 
 using namespace std;
 
-#define inf 100000000               // 大きな値
-
 // 標準入力からボードの状態を配列に受け取る
 inline void input_board(int arr[]) {
     char elem;
@@ -35,7 +33,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
         return evaluate(b, cell_score);
 
     // 置換表から上限値と下限値があれば取得
-    int u = inf, l = -inf;
+    int u = INF, l = -INF;
     if (transpose_table_upper.find(b) != transpose_table_upper.end())
         u = transpose_table_upper[b];
     if (transpose_table_lower.find(b) != transpose_table_lower.end())
@@ -50,7 +48,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
     beta = min(beta, u);
 
     // 葉ノードでなければ子ノードを列挙
-    int coord, g, max_score = -inf, canput = 0;
+    int coord, g, max_score = -INF, canput = 0;
     vector<board> child_nodes;
     for (coord = 0; coord < hw2; ++coord) {
         if (b.is_legal(coord, infos)) {
@@ -141,8 +139,8 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
     int search_depth, res, score, alpha, beta, i;
     int start_depth = max(1, depth - 3); // 最初に探索する手数
     for (search_depth = start_depth; search_depth <= depth; ++search_depth) {
-        alpha = -inf;
-        beta = inf;
+        alpha = -INF;
+        beta = INF;
         if (canput >= 2) {
             // move orderingのための値を得る
             for (board &nb: child_nodes)
