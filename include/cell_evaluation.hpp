@@ -3,12 +3,11 @@
 #pragma once
 
 #include <iostream>
+#include "const.hpp"
 //#include "board.hpp"
 
 #define hw 8            // ボードの大きさ
-#define hw2 64          // ボードのマス数
 #define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
-#define n_line 6561     // ボードの1つのインデックスが取りうる値の種類。3^8
 using namespace std;
 
 const int cell_weight[hw2] = {

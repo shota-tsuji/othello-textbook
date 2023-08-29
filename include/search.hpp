@@ -5,6 +5,7 @@
 #include "unordered_map"
 #include "vector"
 #include "algorithm"
+#include "const.hpp"
 #include "board.hpp"
 #include "cell_evaluation.hpp"
 

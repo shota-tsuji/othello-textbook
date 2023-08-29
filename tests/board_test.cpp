@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
+#include "include/const.hpp"
 #include "include/board.hpp"
 #include "utility.hpp"
-#include "include/const.hpp"
 
 class BoardTest : public ::testing::Test {
 protected:

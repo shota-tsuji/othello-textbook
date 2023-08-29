@@ -9,9 +9,7 @@
 
 using namespace std;
 #define hw 8            // ボードの大きさ
-#define hw2 64          // ボードのマス数
 #define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
-#define n_line 6561     // ボードの1つのインデックスが取りうる値の種類。3^8
 
 // インデックスごとのマスの移動数. row, column, left upper, left lower
 const int move_offset[n_board_idx] = {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,

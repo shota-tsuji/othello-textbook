@@ -2,10 +2,10 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
+#include "include/const.hpp"
 #include "include/board.hpp"
 #include "include/cell_evaluation.hpp"
 #include "include/search.hpp"
-#include "include/const.hpp"
 
 using namespace std;
 

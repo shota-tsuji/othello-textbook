@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "include/const.hpp"
 #include "include/board.hpp"
 
 using namespace std;
