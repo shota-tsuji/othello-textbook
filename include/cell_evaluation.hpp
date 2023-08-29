@@ -6,8 +6,6 @@
 #include "const.hpp"
 //#include "board.hpp"
 
-#define hw 8            // ボードの大きさ
-#define n_board_idx 38  // インデックスの個数 縦横各8x2、斜め11x2
 using namespace std;
 
 const int cell_weight[hw2] = {
