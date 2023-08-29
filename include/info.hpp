@@ -1,5 +1,6 @@
 #ifndef OTHELLO_TEXTBOOK_INFO_H
 #define OTHELLO_TEXTBOOK_INFO_H
+#include "cell_evaluation.hpp"
 
 struct LegalInfo {
     // legal_arr[プレイヤー][ボードのインデックス][マスの位置] = trueなら合法、falseなら非合法
@@ -36,4 +37,25 @@ struct LocalInfo {
     int local_place[n_board_idx][hw2];
 };
 LocalInfo make_local_info();
+
+struct ArrStruct {
+    int cell_score[hw / 2][n_line];
+};
+
+// 盤面のインデックス(行のインデックス)において黒番目線のスコアを前計算しておく
+//inline ArrStruct make_score() {
+ArrStruct make_score();
+
+class Infos {
+public:
+    LegalInfo li;
+    MovementInfo mi;
+    ArrStruct csi;
+    FlipInfo fi;
+    PutInfo pi;
+    IncludedInfo ii;
+    LocalInfo local_info;
+    Infos();
+};
+
 #endif //OTHELLO_TEXTBOOK_INFO_H

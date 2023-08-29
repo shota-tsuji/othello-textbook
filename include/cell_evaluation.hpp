@@ -19,12 +19,5 @@ const int cell_weight[hw2] = {
         30, -12, 0, -1, -1, 0, -12, 30
 };
 
-struct ArrStruct {
-    int cell_score[hw / 2][n_line];
-};
-
-// 盤面のインデックス(行のインデックス)において黒番目線のスコアを前計算しておく
-//inline ArrStruct make_score() {
-ArrStruct make_score();
 
 #endif //CELL_EVALUATION_H

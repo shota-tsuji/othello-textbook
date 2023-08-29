@@ -40,18 +40,6 @@ inline int move_line_half(const int p, const int o, const int place, const int k
 }
 
 
-class Infos {
-public:
-    LegalInfo li;
-    MovementInfo mi;
-    ArrStruct csi;
-    FlipInfo fi;
-    PutInfo pi;
-    IncludedInfo ii;
-    LocalInfo local_info;
-    Infos();
-};
-
 void board_init();
 
 class board {

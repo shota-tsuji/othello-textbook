@@ -2,16 +2,6 @@
 #include "const.hpp"
 #include "cell_evaluation.hpp"
 
-Infos::Infos() {
-    mi = make_movement();
-    li = make_legal_arr(mi.move_arr);
-    csi = make_score();
-    fi = make_flip_info();
-    pi = make_put_info();
-    ii = make_included_info();
-    local_info = make_local_info();
-}
-
 int create_one_color(int idx, const int k) {
     int res = 0;
     for (int i = 0; i < hw; ++i) {
