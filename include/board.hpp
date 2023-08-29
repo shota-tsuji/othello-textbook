@@ -177,26 +177,6 @@ public:
     }
 
     // 着手
-    /*
-    inline board move(const int g_place) {
-        board res;
-        for (int i = 0; i < n_board_idx; ++i)
-            res.board_idx[i] = this->board_idx[i];
-        move_p(&res, g_place, 0);
-        move_p(&res, g_place, 1);
-        move_p(&res, g_place, 2);
-        if (place_included[g_place][3] != -1)
-            move_p(&res, g_place, 3);
-        for (int i = 0; i < 3; ++i)
-            res.board_idx[place_included[g_place][i]] = put_arr[this->player][res.board_idx[place_included[g_place][i]]][local_place[place_included[g_place][i]][g_place]];
-        if (place_included[g_place][3] != -1)
-            res.board_idx[place_included[g_place][3]] = put_arr[this->player][res.board_idx[place_included[g_place][3]]][local_place[place_included[g_place][3]][g_place]];
-        res.player = 1 - this->player;
-        res.n_stones = this->n_stones + 1;
-        res.policy = g_place;
-        return res;
-    }
-     */
     inline board move(const int g_place, Infos infos) {
         board res;
         for (int i = 0; i < n_board_idx; ++i) {
@@ -299,16 +279,5 @@ private:
     }
 };
 
-// Board coordinate constants for one dimensional array index (i.e. values are 0-63)
-enum {
-    A1, B1, C1, D1, E1, F1, G1, H1,
-    A2, B2, C2, D2, E2, F2, G2, H2,
-    A3, B3, C3, D3, E3, F3, G3, H3,
-    A4, B4, C4, D4, E4, F4, G4, H4,
-    A5, B5, C5, D5, E5, F5, G5, H5,
-    A6, B6, C6, D6, E6, F6, G6, H6,
-    A7, B7, C7, D7, E7, F7, G7, H7,
-    A8, B8, C8, D8, E8, F8, G8, H8,
-};
 int evaluate(board b, int cell_score[hw / 2][n_line]);
 #endif //BOARD_H
