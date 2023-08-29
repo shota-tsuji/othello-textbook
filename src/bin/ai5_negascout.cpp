@@ -10,13 +10,6 @@
 using namespace std;
 
 #define inf 100000000               // 大きな値
-#define cache_hit_bonus 1000        // 前回の探索で枝刈りされなかったノードへのボーナス
-
-// 初期化
-//inline void init() {
-//    board_init();
-//    evaluate_init();
-//}
 
 // 標準入力からボードの状態を配列に受け取る
 inline void input_board(int arr[]) {
@@ -165,7 +158,8 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
 
         // 残りの手をnull window searchで探索
         for (i = 1; i < canput; ++i) {
-            score = -nega_alpha_transpose_1(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score, infos);
+            score = -nega_alpha_transpose_1(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score,
+                                            infos);
             // 最善手候補よりも良い手が見つかった
             if (alpha < score) {
                 alpha = score;
@@ -184,9 +178,7 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
 }
 
 int main() {
-    //init();
     board_init();
-    //evaluate_init();
     ArrStruct a = make_score();
     int arr[64];
     board b;
