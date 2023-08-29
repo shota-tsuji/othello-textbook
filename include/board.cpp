@@ -13,12 +13,6 @@ int create_one_color(int idx, const int k) {
     return res;
 }
 
-void board_init() {
-
-
-    cerr << "board initialized" << endl;
-}
-
 int evaluate(board b, Infos infos) {
     int res = 0, i;
     for (i = 0; i < hw / 2; ++i)

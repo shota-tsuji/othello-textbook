@@ -40,7 +40,6 @@ inline int move_line_half(const int p, const int o, const int place, const int k
 }
 
 
-void board_init();
 
 class board {
 public:

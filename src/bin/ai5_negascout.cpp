@@ -176,7 +176,6 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
 }
 
 int main() {
-    board_init();
     ArrStruct a = make_score();
     int arr[64];
     board b;

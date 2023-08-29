@@ -7,9 +7,6 @@
 class EvaluationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Common setup code that runs before each test case
-        board_init();
-        //evaluate_init();
     }
 };
 
