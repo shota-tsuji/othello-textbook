@@ -62,5 +62,5 @@ TEST_F(NegascoutTest, nega_alpha_depth0) {
     board b;
     b.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
 
-    EXPECT_EQ(-3, nega_alpha_transpose_1(b, 0, false, -1, -1, a.cell_score, infos));
+    EXPECT_EQ(-3, nega_alpha_transpose_1(b, 0, false, -1, -1, infos));
 }

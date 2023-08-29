@@ -8,6 +8,7 @@
 #include "const.hpp"
 #include "board.hpp"
 #include "cell_evaluation.hpp"
+#include "board.hpp"
 
 const int INF = 100000000;   // 大きな値
 const int CACHE_HIT_BONUS = 1000;   // 前回の探索で枝刈りされなかったノードへのボーナス
@@ -34,14 +35,28 @@ inline int calc_move_ordering_value(const board b, int cell_score[hw / 2][n_line
     }
     return res;
 }
+inline int calc_move_ordering_value_new(const board b, Infos infos) {
+    int res;
+    if (former_transpose_table_upper.find(b) != former_transpose_table_upper.end()) {
+        // 前回の探索で上限値が格納されていた場合
+        res = CACHE_HIT_BONUS - former_transpose_table_upper[b];
+    } else if (former_transpose_table_lower.find(b) != former_transpose_table_lower.end()) {
+        // 前回の探索で下限値が格納されていた場合
+        res = CACHE_HIT_BONUS - former_transpose_table_lower[b];
+    } else {
+        // 前回の探索で枝刈りされた
+        res = -evaluate_new(b, infos);
+    }
+    return res;
+}
 
 // move orderingと置換表つきnegaalpha法 null windows searchに使う
-int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta, int cell_score[hw / 2][n_line], Infos infos) {
+int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta, Infos infos) {
     ++visited_nodes;
 
     // 葉ノードでは評価関数を実行する
     if (depth == 0)
-        return evaluate(b, cell_score);
+        return evaluate(b, infos.csi.cell_score);
 
     // 置換表から上限値と下限値があれば取得
     int u = INF, l = -INF;
@@ -64,7 +79,7 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
     for (coord = 0; coord < hw2; ++coord) {
         if (b.is_legal(coord, infos)) {
             child_nodes.push_back(b.move(coord, infos));
-            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
+            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], infos.csi.cell_score);
             ++canput;
         }
     }
@@ -73,9 +88,9 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
     if (canput == 0) {
         // 2回連続パスなら評価関数を実行
         if (passed)
-            return evaluate(b, cell_score);
+            return evaluate(b, infos.csi.cell_score);
         b.player = 1 - b.player;
-        return -nega_alpha_transpose_1(b, depth, true, -beta, -alpha, cell_score, infos);
+        return -nega_alpha_transpose_1(b, depth, true, -beta, -alpha, infos);
     }
 
     // move ordering実行
@@ -84,7 +99,7 @@ int nega_alpha_transpose_1(board b, int depth, bool passed, int alpha, int beta,
 
     // 探索
     for (const board& nb: child_nodes) {
-        g = -nega_alpha_transpose_1(nb, depth - 1, false, -beta, -alpha, cell_score, infos);
+        g = -nega_alpha_transpose_1(nb, depth - 1, false, -beta, -alpha, infos);
         if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
             if (g > l) {
                 // 置換表の下限値に登録

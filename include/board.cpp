@@ -29,3 +29,14 @@ int evaluate(board b, int cell_score[hw / 2][n_line]) {
         res = -res;
     return res;
 }
+int evaluate_new(board b, Infos infos) {
+    int res = 0, i;
+    for (i = 0; i < hw / 2; ++i)
+        res += infos.csi.cell_score[i][b.board_idx[i]];
+    for (i = 0; i < hw / 2; ++i)
+        // 折り返して配列確認している?
+        res += infos.csi.cell_score[hw / 2 - 1 - i][b.board_idx[hw / 2 + i]];
+    if (b.player == White)
+        res = -res;
+    return res;
+}

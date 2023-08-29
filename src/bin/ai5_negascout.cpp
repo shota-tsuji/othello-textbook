@@ -86,7 +86,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
     // 残りの手をnull window searchを使って高速に探索
     for (int i = 1; i < canput; ++i) {
         // まずはnull window search
-        g = -nega_alpha_transpose_1(child_nodes[i], depth - 1, false, -alpha - 1, -alpha, cell_score, infos);
+        g = -nega_alpha_transpose_1(child_nodes[i], depth - 1, false, -alpha - 1, -alpha, infos);
         if (g >= beta) { // 興味の範囲よりもminimax値が上のときは枝刈り fail high
             if (g > l) {
                 // 置換表の下限値に登録
@@ -156,7 +156,7 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
 
         // 残りの手をnull window searchで探索
         for (i = 1; i < canput; ++i) {
-            score = -nega_alpha_transpose_1(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha, cell_score,
+            score = -nega_alpha_transpose_1(child_nodes[i], search_depth - 1, false, -alpha - 1, -alpha,
                                             infos);
             // 最善手候補よりも良い手が見つかった
             if (alpha < score) {

@@ -234,4 +234,5 @@ private:
 };
 
 int evaluate(board b, int cell_score[hw / 2][n_line]);
+int evaluate_new(board b, Infos infos);
 #endif //BOARD_H
