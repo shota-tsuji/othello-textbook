@@ -30,7 +30,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
 
     // 葉ノードでは評価関数を実行する
     if (depth == 0)
-        return evaluate(b, cell_score);
+        return evaluate(b, infos);
 
     // 置換表から上限値と下限値があれば取得
     int u = INF, l = -INF;
@@ -53,7 +53,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
     for (coord = 0; coord < hw2; ++coord) {
         if (b.is_legal(coord, infos)) {
             child_nodes.push_back(b.move(coord, infos));
-            child_nodes[canput].value = calc_move_ordering_value(child_nodes[canput], cell_score);
+            child_nodes[canput].value = calc_move_ordering_value_new(child_nodes[canput], infos);
             ++canput;
         }
     }
@@ -62,7 +62,7 @@ int nega_scout_1(board b, int depth, bool passed, int alpha, int beta, int cell_
     if (canput == 0) {
         // 2回連続パスなら評価関数を実行
         if (passed)
-            return evaluate(b, cell_score);
+            return evaluate(b, infos);
         b.player = 1 - b.player;
         return -nega_scout_1(b, depth, true, -beta, -alpha, cell_score, infos);
     }
@@ -144,7 +144,7 @@ int search_1(board b, int depth, int cell_score[hw / 2][n_line], Infos infos) {
         if (canput >= 2) {
             // move orderingのための値を得る
             for (board &nb: child_nodes)
-                nb.value = calc_move_ordering_value(nb, cell_score);
+                nb.value = calc_move_ordering_value_new(nb, infos);
             // move ordering実行
             sort(child_nodes.begin(), child_nodes.end());
         }
@@ -186,7 +186,7 @@ int main() {
     while (true) {
         input_board(arr);
         b.translate_from_arr_1(arr, ai_player, infos);
-        cerr << evaluate(b, a.cell_score) << endl;
+        cerr << evaluate(b, infos) << endl;
         b.print();
         policy = search_1(b, 8, a.cell_score, infos);
         cout << policy / hw << " " << policy % hw << endl;

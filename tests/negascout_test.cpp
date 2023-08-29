@@ -28,8 +28,7 @@ TEST_F(NegascoutTest, move_ordering) {
     black_d3c5.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
     black_d3c5.print();
 
-    //EXPECT_EQ(3, calc_move_ordering_value(black_d3c5));
-    EXPECT_EQ(3, calc_move_ordering_value(black_d3c5, make_score().cell_score));
+    EXPECT_EQ(3, calc_move_ordering_value_new(black_d3c5, infos));
 }
 
 TEST_F(NegascoutTest, move_ordering_upper_bonus) {
@@ -41,8 +40,7 @@ TEST_F(NegascoutTest, move_ordering_upper_bonus) {
     former_transpose_table_lower[b] = point - 1;
     former_transpose_table_upper[b] = point;
 
-    //EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b));
-    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b, make_score().cell_score));
+    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value_new(b, infos));
 }
 
 TEST_F(NegascoutTest, move_ordering_lower_bonus) {
@@ -52,12 +50,10 @@ TEST_F(NegascoutTest, move_ordering_lower_bonus) {
     b.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
     former_transpose_table_lower[b] = point;
 
-    //EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b));
-    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value(b, make_score().cell_score));
+    EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value_new(b, infos));
 }
 
 TEST_F(NegascoutTest, nega_alpha_depth0) {
-    ArrStruct a = make_score();
     Infos infos;
     board b;
     b.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
