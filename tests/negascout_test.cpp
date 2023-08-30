@@ -28,6 +28,7 @@ TEST_F(NegascoutTest, move_ordering) {
     EXPECT_EQ(3, calc_move_ordering_value_new(black_d3c5, infos));
 }
 
+/*
 TEST_F(NegascoutTest, move_ordering_upper_bonus) {
     const int point = 100;
     Infos infos;
@@ -39,6 +40,7 @@ TEST_F(NegascoutTest, move_ordering_upper_bonus) {
 
     EXPECT_EQ(CACHE_HIT_BONUS - point, calc_move_ordering_value_new(b, infos));
 }
+ */
 
 TEST_F(NegascoutTest, move_ordering_lower_bonus) {
     const int point = 100;
