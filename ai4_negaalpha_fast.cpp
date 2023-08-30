@@ -1,9 +1,9 @@
-#include <iostream>
-#include <unordered_map>
-#include <vector>
-#include <algorithm>
-#include "board.hpp"
-#include "cell_evaluation.hpp"
+#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iostream"
+#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/unordered_map"
+#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/vector"
+#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/algorithm"
+#include "include/board.hpp"
+#include "include/cell_evaluation.hpp"
 
 using namespace std;
 

@@ -3,11 +3,12 @@ ai.out
 __pycache__
 evaluation/evaluate.out
 evaluation/__pycache__
+Dockerfile
+README.md
+LICENSE
 
 .idea
 build
 cmake-build-debug
 Testing
-coverage_html
-report
 coverage.info

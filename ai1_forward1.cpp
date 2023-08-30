@@ -1,6 +1,6 @@
-#include <iostream>
-#include "board.hpp"
-#include "cell_evaluation.hpp"
+#include "iostream"
+#include "include/board.hpp"
+#include "include/cell_evaluation.hpp"
 
 using namespace std;
 

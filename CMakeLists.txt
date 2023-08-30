@@ -1,49 +1,47 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
+# cmake_minimum_required(VERSION 3.25)
 project(Othello_textbook CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "--coverage")
+set(CMAKE_EXE_LINKER_FLAGS "--coverage")
+file(GLOB MY_TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
+file(GLOB OTHELLO_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
+
+include_directories(. evaluation tests include)
+
+add_executable(othello
+        # evaluation/board.hpp
+        # evaluation/calc_additional_params.cpp
+        # evaluation/mobility_surround_evaluation.hpp
+        src/bin/ai5_negascout.cpp
+        ${OTHELLO_LIBRARY}
+        book.hpp
+        endgame_evaluation.hpp
+        # pattern_mobility_surround_evaluation.hpp
+)
 
 include(FetchContent)
 FetchContent_Declare(
         googletest
-        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG 03597a01ee50ed33e9dfd640b249b4be3799d395 # release-1.10.0
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
-include_directories(.)
-include_directories(evaluation)
-
-add_executable(OthelloAI_Textbook
-        # evaluation/board.hpp
-        # evaluation/calc_additional_params.cpp
-        # evaluation/mobility_surround_evaluation.hpp
-        # ai1_forward1.cpp
-        # ai2_negamax.cpp
-        # ai3_negaalpha.cpp
-        # ai4_negaalpha_fast.cpp
-        ai5_negascout.cpp
-        # ai6_pattern_evaluation.cpp
-        # ai7_book.cpp
-        # ai8_endgame_search.cpp
-        board.hpp
-        book.hpp
-        cell_evaluation.hpp
-        endgame_evaluation.hpp
-        # pattern_mobility_surround_evaluation.hpp
-        )
-
 enable_testing()
 
-add_executable(
-        board_test
-        board_test.cc
-)
-target_link_libraries(
-        board_test
-        GTest::gtest_main
-)
+set(MY_TEST_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(MY_BINARY_NAME "unit-tests")
+add_executable(${MY_BINARY_NAME} ${MY_TEST_SRCS} ${OTHELLO_LIBRARY})
+target_link_libraries(${MY_BINARY_NAME} GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(board_test)
+# gtest_discover_tests(board_test)
+# gtest_discover_tests(evaluation_test)
+# gtest_discover_tests(negascout_test)
+
+# ctest_coverage(build board_test)
+# ctest_coverage(evaluation_test)
+# ctest_coverage(negascout_test)

@@ -1,72 +1,21 @@
 #include <gtest/gtest.h>
-#include "board.hpp"
-
-class TestBoard {
-public:
-    static std::vector<int> beginning() {
-        std::vector<int> v(hw2, Vacant);
-        v[D4] = White;
-        v[E4] = Black;
-        v[D5] = Black;
-        v[E5] = White;
-
-        return v;
-    }
-    static std::vector<int> d3() {
-        std::vector<int> v(hw2, Vacant);
-        v[D3] = Black;
-        v[D4] = Black;
-        v[E4] = Black;
-        v[D5] = Black;
-        v[E5] = White;
-
-        return v;
-    }
-    static std::vector<int> d3c5() {
-        std::vector<int> v(hw2, Vacant);
-        v[D3] = Black;
-        v[D4] = Black;
-        v[E4] = Black;
-        v[C5] = White;
-        v[D5] = White;
-        v[E5] = White;
-
-        return v;
-    }
-
-    static std::vector<int> d3c5e6() {
-        std::vector<int> v(hw2, Vacant);
-        v[D3] = Black;
-        v[D4] = Black;
-        v[E4] = Black;
-        v[C5] = White;
-        v[D5] = White;
-        v[E5] = Black;
-        v[E6] = Black;
-
-        return v;
-    }
-
-    static std::vector<int> all_black() {
-        std::vector<int> v(hw2, Black);
-        return v;
-    }
-};
+#include "include/const.hpp"
+#include "include/board.hpp"
+#include "utility.hpp"
 
 class BoardTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Common setup code that runs before each test case
-        board_init();
     }
 };
 
 TEST_F(BoardTest, Initialization) {
+    Infos infos;
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
     int arr[64] = {0};
     board b;
-    b.translate_from_arr(arr, 0);
+    b.translate_from_arr_1(arr, 0, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -84,8 +33,9 @@ TEST_F(BoardTest, Initialization2) {
     int expected[n_board_idx] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80,
                                  242, 242, 80, 26, 8, 2, 0, 2, 8, 26, 80, 242};
 
+    Infos infos;
     board b;
-    b.translate_from_arr(TestBoard::all_black(), Black);
+    b.translate_from_arr(TestBoard::all_black(), Black, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -101,31 +51,34 @@ TEST_F(BoardTest, Initialization2) {
 
 // 0000000000000000000000000000000000000000000000000000000000000000
 TEST_F(BoardTest, LegalJudgeAllBlack) {
+    Infos infos;
     board b;
-    b.translate_from_arr(TestBoard::all_black(), Black);
+    b.translate_from_arr(TestBoard::all_black(), Black, infos);
 
-    EXPECT_FALSE(b.legal(A1));
+    EXPECT_FALSE(b.is_legal(A1, infos));
 }
 
 // ...................0.......00.....111...........................
 TEST_F(BoardTest, LegalJudge) {
+    Infos infos;
     board b;
-    b.translate_from_arr(TestBoard::d3c5(), Black);
+    b.translate_from_arr(TestBoard::d3c5(), Black, infos);
     b.print();
 
-    EXPECT_FALSE(b.legal(A1));
-    EXPECT_TRUE(b.legal(B6));
+    EXPECT_FALSE(b.is_legal(A1, infos));
+    EXPECT_TRUE(b.is_legal(B6, infos));
 }
 
 TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
+    Infos infos;
     // d3c5e6
     board expected;
-    expected.translate_from_arr(TestBoard::d3c5e6(), White);
+    expected.translate_from_arr(TestBoard::d3c5e6(), White, infos);
 
     // d3c5
     board previous_board;
-    previous_board.translate_from_arr(TestBoard::d3c5(), Black);
-    board next = previous_board.move(E6);
+    previous_board.translate_from_arr(TestBoard::d3c5(), Black, infos);
+    board next = previous_board.move(E6, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -141,12 +94,13 @@ TEST_F(BoardTest, EqualsToNextHandWhenMovedFromPreviousHand) {
 }
 
 TEST_F(BoardTest, MoveFromBeginning) {
+    Infos infos;
     board expected;
-    expected.translate_from_arr(TestBoard::d3(), White);
+    expected.translate_from_arr(TestBoard::d3(), White, infos);
 
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
-    board next = b0.move(D3);
+    b0.translate_from_arr(TestBoard::beginning(), Black, infos);
+    board next = b0.move(D3, infos);
 
     bool same = true;
     for (int i = 0; i < n_board_idx; ++i) {
@@ -162,31 +116,33 @@ TEST_F(BoardTest, MoveFromBeginning) {
 }
 
 TEST_F(BoardTest, HashedValue) {
+    Infos infos;
     board::hash hashFunc;
 
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
+    b0.translate_from_arr(TestBoard::beginning(), Black, infos);
 
     EXPECT_EQ(18446744073305302956, hashFunc(b0));
 
     board b1;
-    b1.translate_from_arr(TestBoard::d3c5(), Black);
+    b1.translate_from_arr(TestBoard::d3c5(), Black, infos);
     EXPECT_EQ(18446744073291327783, hashFunc(b1));
 
     board b2;
-    b2.translate_from_arr(TestBoard::d3c5e6(), Black);
+    b2.translate_from_arr(TestBoard::d3c5e6(), Black, infos);
     EXPECT_EQ(18446744073212400438, hashFunc(b2));
 }
 
 TEST_F(BoardTest, Equality) {
+    Infos infos;
     board b0;
-    b0.translate_from_arr(TestBoard::beginning(), Black);
+    b0.translate_from_arr(TestBoard::beginning(), Black, infos);
     board b1;
-    b1.translate_from_arr(TestBoard::beginning(), White);
+    b1.translate_from_arr(TestBoard::beginning(), White, infos);
     board b2;
-    b2.translate_from_arr(TestBoard::beginning(), Black);
+    b2.translate_from_arr(TestBoard::beginning(), Black, infos);
     board b3;
-    b3.translate_from_arr(TestBoard::all_black(), Black);
+    b3.translate_from_arr(TestBoard::all_black(), Black, infos);
 
     EXPECT_EQ(b0, b0);
     EXPECT_EQ(b0, b2);
